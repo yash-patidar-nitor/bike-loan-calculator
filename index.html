@@ -131,11 +131,11 @@
           <div class="space-y-1.5">
             <div class="flex justify-between items-center text-xs">
               <label for="onRoadPrice" class="font-semibold text-slate-300">Bike On-Road Price (₹)</label>
-              <span id="priceInWords" class="text-slate-400 font-mono">₹1.40 Lakh</span>
+              <span id="priceInWords" class="text-slate-400 font-mono">₹96.5K</span>
             </div>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm pointer-events-none">₹</span>
-              <input type="number" id="onRoadPrice" min="10000" max="5000000" step="1000" value="140000"
+              <input type="number" id="onRoadPrice" min="10000" max="5000000" step="500" value="96500"
                 class="block w-full rounded-xl bg-slate-950 border border-slate-700 pl-8 pr-3 py-2.5 text-white font-semibold text-base focus:border-rose-500 focus:outline-none transition">
             </div>
           </div>
@@ -144,11 +144,11 @@
           <div class="space-y-1.5">
             <div class="flex justify-between items-center text-xs">
               <label for="downPayment" class="font-semibold text-slate-300">Down Payment (DP) (₹)</label>
-              <span id="dpPercentLabel" class="text-rose-400 font-medium font-mono">20%</span>
+              <span id="dpPercentLabel" class="text-rose-400 font-medium font-mono">20.7%</span>
             </div>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm pointer-events-none">₹</span>
-              <input type="number" id="downPayment" min="0" step="1000" value="28000"
+              <input type="number" id="downPayment" min="0" step="500" value="20000"
                 class="block w-full rounded-xl bg-slate-950 border border-slate-700 pl-8 pr-3 py-2.5 text-white font-semibold text-base focus:border-rose-500 focus:outline-none transition">
             </div>
             <!-- Quick DP chips -->
@@ -172,10 +172,10 @@
               <span class="font-bold text-amber-400 font-mono">+₹7,500 <span class="text-[10px] text-slate-400 font-normal">(Financed)</span></span>
             </div>
 
-            <!-- General Insurance Checkbox -->
+            <!-- General Insurance Checkbox (Default Checked) -->
             <div class="pt-2 border-t border-slate-800/80">
               <label class="flex items-start gap-2.5 cursor-pointer group">
-                <input type="checkbox" id="insuranceCheck" class="w-4 h-4 mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-600">
+                <input type="checkbox" id="insuranceCheck" checked class="w-4 h-4 mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-600">
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <span class="font-semibold text-slate-200 group-hover:text-white transition">General Insurance</span>
@@ -188,7 +188,35 @@
 
           </div>
 
-          <!-- 4. Rate of Interest (Flat ROI) -->
+          <!-- 4. Tenure (Repayment Period) - Moved above Interest Rate -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <label for="tenureSelect" class="font-semibold text-slate-300">Tenure (Repayment Period)</label>
+              <span id="tenureInYearsLabel" class="text-slate-400 font-mono">2.0 Years</span>
+            </div>
+            <div class="relative">
+              <select id="tenureSelect" class="block w-full rounded-xl bg-slate-950 border border-slate-700 py-2.5 pl-3 pr-8 text-white font-semibold text-sm focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
+                <option value="12">12 Months (1.0 Year)</option>
+                <option value="18">18 Months (1.5 Years)</option>
+                <option value="24" selected>24 Months (2.0 Years)</option>
+                <option value="30">30 Months (2.5 Years)</option>
+                <option value="36">36 Months (3.0 Years)</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+            <!-- Quick Tenure Buttons (12, 18, 24, 30, 36) -->
+            <div class="grid grid-cols-5 gap-1 pt-0.5">
+              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="12">12 Mo</button>
+              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="18">18 Mo</button>
+              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-rose-700 bg-rose-950 text-rose-300 font-bold transition" data-tenure="24">24 Mo</button>
+              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="30">30 Mo</button>
+              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="36">36 Mo</button>
+            </div>
+          </div>
+
+          <!-- 5. Rate of Interest (Flat ROI) - Below Tenure -->
           <div class="space-y-1.5">
             <div class="flex justify-between items-center text-xs">
               <label for="roiSelect" class="font-semibold text-slate-300">Rate of Interest (Flat ROI)</label>
@@ -209,32 +237,6 @@
               <button type="button" class="roi-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-roi="9.99">9.99%</button>
               <button type="button" class="roi-btn py-1 text-xs rounded-lg border border-rose-700 bg-rose-950 text-rose-300 font-bold transition" data-roi="11.99">11.99%</button>
               <button type="button" class="roi-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-roi="12.99">12.99%</button>
-            </div>
-          </div>
-
-          <!-- 5. Tenure (18, 24, 30, 36 Months) -->
-          <div class="space-y-1.5">
-            <div class="flex justify-between items-center text-xs">
-              <label for="tenureSelect" class="font-semibold text-slate-300">Tenure (Repayment Period)</label>
-              <span id="tenureInYearsLabel" class="text-slate-400 font-mono">2.0 Years</span>
-            </div>
-            <div class="relative">
-              <select id="tenureSelect" class="block w-full rounded-xl bg-slate-950 border border-slate-700 py-2.5 pl-3 pr-8 text-white font-semibold text-sm focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
-                <option value="18">18 Months (1.5 Years)</option>
-                <option value="24" selected>24 Months (2.0 Years)</option>
-                <option value="30">30 Months (2.5 Years)</option>
-                <option value="36">36 Months (3.0 Years)</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-            <!-- Quick Tenure Buttons (18, 24, 30, 36) -->
-            <div class="grid grid-cols-4 gap-1.5 pt-0.5">
-              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="18">18 Mo</button>
-              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-rose-700 bg-rose-950 text-rose-300 font-bold transition" data-tenure="24">24 Mo</button>
-              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="30">30 Mo</button>
-              <button type="button" class="tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition" data-tenure="36">36 Mo</button>
             </div>
           </div>
 
@@ -331,15 +333,15 @@
           </div>
         </div>
 
-        <!-- Clean Tenure Comparison Cards (18, 24, 30, 36) -->
+        <!-- Clean Tenure Comparison Cards (12, 18, 24, 30, 36) -->
         <div class="space-y-2">
           <div class="flex items-center justify-between text-xs text-slate-400 font-semibold px-1">
-            <span>Tenure Comparison (18, 24, 30, 36 Months)</span>
+            <span>Tenure Comparison (12, 18, 24, 30, 36 Months)</span>
             <span class="text-slate-500">Tap to select</span>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="tenureCardsContainer">
-            <!-- Dynamically populated 4 cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2" id="tenureCardsContainer">
+            <!-- Dynamically populated 5 cards -->
           </div>
         </div>
 
@@ -364,14 +366,14 @@
   <script>
     // State
     const state = {
-      onRoadPrice: 140000,
+      onRoadPrice: 96500,
       fileCharge: 7500,
-      insuranceAddon: false,
+      insuranceAddon: true,
       insuranceCost: 1000,
-      downPayment: 28000,
+      downPayment: 20000,
       roi: 11.99,
       tenureMonths: 24,
-      tenureOptions: [18, 24, 30, 36]
+      tenureOptions: [12, 18, 24, 30, 36]
     };
 
     // DOM Elements
@@ -656,7 +658,7 @@
       }
       if (params.has('tenure')) {
         const t = parseInt(params.get('tenure'));
-        if ([18, 24, 30, 36].includes(t)) setTenure(t);
+        if ([12, 18, 24, 30, 36].includes(t)) setTenure(t);
       }
     }
 
@@ -702,9 +704,9 @@
 
     // Reset Defaults
     document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
-      elOnRoadPrice.value = 140000;
-      elDownPayment.value = 28000;
-      elInsuranceCheck.checked = false;
+      elOnRoadPrice.value = 96500;
+      elDownPayment.value = 20000;
+      elInsuranceCheck.checked = true;
       setRoi(11.99);
       setTenure(24);
     });
