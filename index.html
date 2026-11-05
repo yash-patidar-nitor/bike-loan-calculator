@@ -517,11 +517,19 @@
       updateUrlParams();
     }
 
-    // Render Clean 4 Tenure Comparison Cards (18, 24, 30, 36)
-    function renderTenureCards(onRoad, dp, fileCharge, hasInsurance, roi, activeTenure) {
+    // Automatic ROI rule based on tenure:
+    // 12, 18, 24 months -> 11.99%
+    // Rest (30, 36 months) -> 12.99%
+    function getRoiForTenure(tenure) {
+      return tenure <= 24 ? 11.99 : 12.99;
+    }
+
+    // Render Clean 5 Tenure Comparison Cards (12, 18, 24, 30, 36)
+    function renderTenureCards(onRoad, dp, fileCharge, hasInsurance, activeRoi, activeTenure) {
       elTenureCardsContainer.innerHTML = '';
       state.tenureOptions.forEach(t => {
-        const item = calculateLoan(onRoad, dp, fileCharge, hasInsurance, roi, t);
+        const cardRoi = getRoiForTenure(t);
+        const item = calculateLoan(onRoad, dp, fileCharge, hasInsurance, cardRoi, t);
         const isActive = (t === activeTenure);
 
         const card = document.createElement('div');
@@ -535,7 +543,10 @@
           <div class="text-[11px] font-bold ${isActive ? 'text-rose-300' : 'text-slate-400'} uppercase">
             ${t} Months
           </div>
-          <div class="text-sm font-extrabold text-white font-mono mt-1">
+          <div class="text-[10px] ${isActive ? 'text-rose-400 font-semibold' : 'text-slate-500'}">
+            @ ${cardRoi}% Flat
+          </div>
+          <div class="text-sm font-extrabold text-white font-mono mt-0.5">
             ${formatINR(item.monthlyEmi)}
           </div>
           <div class="text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-800/80">
@@ -548,7 +559,7 @@
       });
     }
 
-    // Set Tenure Helper
+    // Set Tenure Helper (auto-updates ROI based on tenure)
     function setTenure(months) {
       elTenureSelect.value = months;
       document.querySelectorAll('.tenure-btn').forEach(btn => {
@@ -559,7 +570,12 @@
           btn.className = 'tenure-btn py-1 text-xs rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:bg-slate-800 transition';
         }
       });
-      updateCalculator();
+
+      // Auto update ROI:
+      // For 12, 18, 24 -> 11.99%
+      // For rest (30, 36) -> 12.99%
+      const autoRoi = getRoiForTenure(months);
+      setRoi(autoRoi);
     }
 
     // Set ROI Helper
@@ -652,13 +668,13 @@
       if (params.has('price')) elOnRoadPrice.value = params.get('price');
       if (params.has('dp')) elDownPayment.value = params.get('dp');
       if (params.has('ins')) elInsuranceCheck.checked = params.get('ins') === '1';
-      if (params.has('roi')) {
-        const r = parseFloat(params.get('roi'));
-        if ([9.99, 11.99, 12.99].includes(r)) setRoi(r);
-      }
       if (params.has('tenure')) {
         const t = parseInt(params.get('tenure'));
         if ([12, 18, 24, 30, 36].includes(t)) setTenure(t);
+      }
+      if (params.has('roi')) {
+        const r = parseFloat(params.get('roi'));
+        if ([9.99, 11.99, 12.99].includes(r)) setRoi(r);
       }
     }
 
