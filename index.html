@@ -1559,8 +1559,8 @@
         if (elKycMobile) elKycMobile.value = '';
         if (elKycPin) elKycPin.value = '';
         if (elKycMotherName) elKycMotherName.value = '';
-        if (elKycMotherDob) elKycMotherDob.value = '';
         if (elKycNomineeName) elKycNomineeName.value = '';
+        if (elKycNomineeDob) elKycNomineeDob.value = '';
         if (elKycNomineeRel) elKycNomineeRel.value = 'Wife';
         if (elKycHomeMobile) elKycHomeMobile.value = '';
         if (elKycRefName) elKycRefName.value = '';
@@ -1571,7 +1571,7 @@
         if (elKycCustomModelInput) elKycCustomModelInput.value = '';
         if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS['Splendor Self'].exShowroom;
         if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
-        recalcVehiclePricing(true);
+        recalcVehiclePricing(true, true);
         if (elDownPayment) elDownPayment.value = 20000;
         if (elFileCharge) elFileCharge.value = 8000;
         if (elInsuranceCheck) elInsuranceCheck.checked = true;
@@ -1583,7 +1583,7 @@
     // Attach real-time input & change listeners to all customer and family inputs
     const kycInputs = [
       elKycName, elKycCustomerDob, elKycMobile, elKycPin,
-      elKycMotherName, elKycMotherDob, elKycNomineeName,
+      elKycMotherName, elKycNomineeName, elKycNomineeDob,
       elKycNomineeRel, elKycHomeMobile, elKycRefName, elKycRefMobile
     ];
     kycInputs.forEach(input => {
