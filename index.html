@@ -311,34 +311,55 @@
             <button id="resetDefaultsBtn" class="text-xs text-rose-400 hover:text-rose-300 transition">Reset</button>
           </div>
 
-          <!-- Customer & Vehicle Model (Top Inputs) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-2 border-b border-slate-800/80">
-            <div class="space-y-1">
+          <!-- Customer & Vehicle Model (Form Fill Trigger & Conditional Display) -->
+          <div id="mainCustomerSection" class="pb-2 border-b border-slate-800/80 space-y-2">
+            
+            <!-- Hidden inputs to retain state & form compatibility -->
+            <input type="hidden" id="customerName" value="">
+            <input type="hidden" id="bikeModel" value="">
+
+            <!-- 1. State when Form is NOT yet filled: Clean Form Fill Action Button -->
+            <div id="unfilledCustomerPrompt" class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-rose-900/60 transition group cursor-pointer" title="Click to open customer & bike form">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-300 flex items-center justify-center font-bold text-sm group-hover:scale-105 transition">
+                  📝
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white group-hover:text-rose-300 transition">Customer & Bike Details</div>
+                  <div class="text-[11px] text-slate-400">Click to fill form for lead & on-road calculation</div>
+                </div>
+              </div>
+              <button type="button" id="openKycModalBtn" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm active:scale-95 flex items-center gap-1">
+                <span>Form Fill</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
+            <!-- 2. State when Form IS filled: Visible Customer & Bike Details Card -->
+            <div id="filledCustomerCard" class="hidden p-3 rounded-xl bg-gradient-to-r from-rose-950/40 via-slate-950 to-slate-950 border border-rose-900/60 space-y-2">
               <div class="flex items-center justify-between">
-                <label for="customerName" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  Customer Name
-                </label>
-                <!-- Form Filling Option Button Beside Customer Name -->
-                <button type="button" id="openKycModalBtn" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-rose-950 text-rose-300 border border-rose-800/80 hover:bg-rose-900 text-[11px] font-semibold transition active:scale-95 shadow-sm" title="Open complete form for customer & bike details">
-                  <svg class="w-3 h-3 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  <span>Form Fill</span>
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-md bg-rose-600/20 text-rose-300 flex items-center justify-center text-xs font-bold">👤</span>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-rose-300">Customer & Vehicle Details</span>
+                </div>
+                <button type="button" id="editKycModalBtn" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1 hover:underline">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                  <span>Edit Form</span>
                 </button>
               </div>
-              <input type="text" id="customerName" placeholder="e.g. Rahul Sharma"
-                class="block w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-white font-medium text-xs sm:text-sm placeholder:text-slate-600 focus:border-rose-500 focus:outline-none transition">
-            </div>
-            <div class="space-y-1">
-              <div class="flex items-center justify-between">
-                <label for="bikeModel" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                  Bike Model Name
-                </label>
-                <span id="quickModelBadge" class="text-[10px] text-slate-500 font-mono">In Form</span>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-800/80 text-xs">
+                <div class="bg-slate-900/80 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center justify-between">
+                  <span class="text-slate-400 text-[11px]">Customer:</span>
+                  <span id="displayCustomerName" class="font-bold text-white text-xs truncate max-w-[150px]"></span>
+                </div>
+                <div class="bg-slate-900/80 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center justify-between">
+                  <span class="text-slate-400 text-[11px]">Model:</span>
+                  <span id="displayBikeModel" class="font-bold text-rose-300 text-xs truncate max-w-[150px]"></span>
+                </div>
               </div>
-              <input type="text" id="bikeModel" placeholder="e.g. Splendor Self / HF Deluxe"
-                class="block w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-white font-medium text-xs sm:text-sm placeholder:text-slate-600 focus:border-rose-500 focus:outline-none transition">
             </div>
+
           </div>
 
           <!-- 1. On-Road Price -->
@@ -634,7 +655,7 @@
       refMobile: '',
 
       // Vehicle Details
-      bikeModel: 'Splendor Self',
+      bikeModel: '',
       exShowroom: 78299,
       rto: 9396,
       insuranceAmount: 5000,
@@ -666,6 +687,13 @@
     const bannerCustomerName = document.getElementById('bannerCustomerName');
     const bannerBikeModelContainer = document.getElementById('bannerBikeModelContainer');
     const bannerBikeModel = document.getElementById('bannerBikeModel');
+
+    // Main Screen Customer & Model Visibility Elements
+    const unfilledCustomerPrompt = document.getElementById('unfilledCustomerPrompt');
+    const filledCustomerCard = document.getElementById('filledCustomerCard');
+    const displayCustomerName = document.getElementById('displayCustomerName');
+    const displayBikeModel = document.getElementById('displayBikeModel');
+    const editKycModalBtn = document.getElementById('editKycModalBtn');
 
     // KYC Form DOM Elements
     const kycModal = document.getElementById('kycModal');
@@ -786,9 +814,23 @@
       state.roi = roi;
       state.tenureMonths = tenure;
 
+      // Conditional Main Screen Visibility (Customer Name & Bike Model Name visible ONLY after filling form)
+      const hasCustomerOrModel = Boolean(customer || model);
+      if (unfilledCustomerPrompt && filledCustomerCard) {
+        if (hasCustomerOrModel) {
+          unfilledCustomerPrompt.classList.add('hidden');
+          filledCustomerCard.classList.remove('hidden');
+          if (displayCustomerName) displayCustomerName.textContent = customer || 'N/A';
+          if (displayBikeModel) displayBikeModel.textContent = model || 'N/A';
+        } else {
+          unfilledCustomerPrompt.classList.remove('hidden');
+          filledCustomerCard.classList.add('hidden');
+        }
+      }
+
       // Update Customer Banner
       if (quoteCustomerBanner) {
-        if (customer || model) {
+        if (hasCustomerOrModel) {
           quoteCustomerBanner.classList.remove('hidden');
           if (customer) {
             bannerCustomerName.textContent = customer;
@@ -1025,6 +1067,15 @@
           if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
           if (elKycCustomModelInput) elKycCustomModelInput.value = m;
         }
+      } else {
+        if (elKycModelSelect && (!elKycModelSelect.value || elKycModelSelect.value === 'Other')) {
+          elKycModelSelect.value = 'Splendor Self';
+          if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
+          if (MODEL_PRESETS['Splendor Self']) {
+            if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS['Splendor Self'].exShowroom;
+            if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
+          }
+        }
       }
       recalcCustomPricingSum();
       if (kycModal) kycModal.classList.remove('hidden');
@@ -1033,7 +1084,15 @@
       if (kycModal) kycModal.classList.add('hidden');
     };
 
-    if (openKycModalBtn) openKycModalBtn.addEventListener('click', openKycModal);
+    if (unfilledCustomerPrompt) unfilledCustomerPrompt.addEventListener('click', openKycModal);
+    if (openKycModalBtn) openKycModalBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openKycModal();
+    });
+    if (editKycModalBtn) editKycModalBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openKycModal();
+    });
     if (closeKycModalBtn) closeKycModalBtn.addEventListener('click', closeKycModal);
     if (closeKycModalFooterBtn) closeKycModalFooterBtn.addEventListener('click', closeKycModal);
     if (kycModal) {
@@ -1266,10 +1325,15 @@
     function loadFromUrlParams() {
       const params = new URLSearchParams(window.location.search);
       // Customer
-      if (params.has('customer')) elCustomerName.value = params.get('customer');
-      else if (params.has('cust')) elCustomerName.value = params.get('cust');
-      else if (params.has('name')) elCustomerName.value = params.get('name');
-      if (elKycName && elCustomerName) elKycName.value = elCustomerName.value;
+      let cName = '';
+      if (params.has('customer')) cName = params.get('customer');
+      else if (params.has('cust')) cName = params.get('cust');
+      else if (params.has('name')) cName = params.get('name');
+      if (cName) {
+        if (elCustomerName) elCustomerName.value = cName;
+        state.customerName = cName;
+        if (elKycName) elKycName.value = cName;
+      }
 
       // Lead fields
       if (params.has('mob')) { state.mobile = params.get('mob'); if (elKycMobile) elKycMobile.value = state.mobile; }
@@ -1284,6 +1348,7 @@
       if (params.has('model')) {
         const m = params.get('model');
         if (elBikeModel) elBikeModel.value = m;
+        state.bikeModel = m;
         if (elKycModelSelect) {
           if (["HF Deluxe BLK", "Splendor Self", "Splendor BLA"].includes(m)) {
             elKycModelSelect.value = m;
@@ -1360,7 +1425,9 @@
     // Reset Defaults
     document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
       if (elCustomerName) elCustomerName.value = '';
-      if (elBikeModel) elBikeModel.value = 'Splendor Self';
+      if (elBikeModel) elBikeModel.value = '';
+      state.customerName = '';
+      state.bikeModel = '';
       if (elKycName) elKycName.value = '';
       if (elKycMobile) elKycMobile.value = '';
       if (elKycPin) elKycPin.value = '';
