@@ -221,7 +221,7 @@
                 <option value="Splendor Self" selected>Splendor Self (Ex: ₹78,299 | Ins: ₹5,000)</option>
                 <option value="Splendor BLA">Splendor BLA (Ex: ₹79,381 | Ins: ₹5,000)</option>
                 <option value="HF Deluxe BLK">HF Deluxe BLK (Ex: ₹59,999 | Ins: ₹4,900)</option>
-                <option value="Custom">Custom Model / Other Price</option>
+                <option value="Other">Other (All fields default to 0)</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -229,41 +229,37 @@
             </div>
           </div>
 
-          <!-- Custom Model Name input (shown when custom) -->
+          <!-- Custom Model Name input (shown when Other) -->
           <div id="kycCustomModelRow" class="hidden space-y-1">
-            <label for="kycCustomModelInput" class="font-semibold text-slate-400 text-[11px]">Custom Model Name</label>
-            <input type="text" id="kycCustomModelInput" placeholder="Enter custom model name"
+            <label for="kycCustomModelInput" class="font-semibold text-slate-400 text-[11px]">Specify Model Name</label>
+            <input type="text" id="kycCustomModelInput" placeholder="Enter model name (e.g. Activa 6G, Pulsar 150)"
               class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
           </div>
 
-          <!-- Price Components Grid -->
+          <!-- Price Components Grid (All Editable) -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
             <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
               <label for="kycExShowroom" class="font-medium text-slate-400 text-[10px] block">Ex-Showroom (₹)</label>
-              <input type="number" id="kycExShowroom" value="78299" min="10000" step="500"
+              <input type="number" id="kycExShowroom" value="78299" min="0" step="500"
                 class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-bold font-mono text-xs focus:border-rose-500 focus:outline-none">
             </div>
 
             <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <div class="flex justify-between items-center">
-                <span class="font-medium text-slate-400 text-[10px]">RTO (12%) (₹)</span>
-              </div>
-              <input type="number" id="kycRto" readonly value="9396"
-                class="w-full bg-slate-950/60 border border-slate-800 rounded px-2 py-1 text-emerald-400 font-bold font-mono text-xs cursor-not-allowed">
+              <label for="kycRto" class="font-medium text-slate-400 text-[10px] block">RTO (12%) (₹)</label>
+              <input type="number" id="kycRto" value="9396" min="0" step="100"
+                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-emerald-400 font-bold font-mono text-xs focus:border-emerald-500 focus:outline-none">
             </div>
 
             <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
               <label for="kycInsurance" class="font-medium text-slate-400 text-[10px] block">Insurance (₹)</label>
               <input type="number" id="kycInsurance" value="5000" min="0" step="100"
-                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-indigo-400 font-bold font-mono text-xs focus:border-rose-500 focus:outline-none">
+                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-indigo-400 font-bold font-mono text-xs focus:border-indigo-500 focus:outline-none">
             </div>
 
             <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <div class="flex justify-between items-center">
-                <span class="font-medium text-slate-400 text-[10px]">Other Charges (₹)</span>
-              </div>
-              <input type="number" id="kycOtherCharges" readonly value="2830"
-                class="w-full bg-slate-950/60 border border-slate-800 rounded px-2 py-1 text-amber-400 font-bold font-mono text-xs cursor-not-allowed">
+              <label for="kycOtherCharges" class="font-medium text-slate-400 text-[10px] block">Other Charges (₹)</label>
+              <input type="number" id="kycOtherCharges" value="2830" min="0" step="100"
+                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-amber-400 font-bold font-mono text-xs focus:border-amber-500 focus:outline-none">
             </div>
           </div>
 
@@ -618,6 +614,10 @@
       "Splendor BLA": {
         exShowroom: 79381,
         insurance: 5000
+      },
+      "Other": {
+        exShowroom: 0,
+        insurance: 0
       }
     };
 
@@ -974,8 +974,29 @@
       return { ex, rto, ins, otherCharges, totalOnRoad };
     }
 
-    function updateKycPricingDisplay() {
+    function recalcCustomPricingSum() {
+      const ex = Math.max(0, parseFloat(elKycExShowroom ? elKycExShowroom.value : 0) || 0);
+      const rto = Math.max(0, parseFloat(elKycRto ? elKycRto.value : 0) || 0);
+      const ins = Math.max(0, parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0);
+      const other = Math.max(0, parseFloat(elKycOtherCharges ? elKycOtherCharges.value : 0) || 0);
+      const totalOnRoad = ex + rto + ins + other;
+
+      if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = formatINR(totalOnRoad);
+      state.exShowroom = ex;
+      state.rto = rto;
+      state.insuranceAmount = ins;
+      state.otherCharges = other;
+      return { ex, rto, ins, otherCharges: other, totalOnRoad };
+    }
+
+    function updateKycPricingDisplay(autoRecalc = true) {
       if (!elKycExShowroom) return null;
+      const selectedModel = elKycModelSelect ? elKycModelSelect.value : '';
+
+      if (selectedModel === 'Other' || !autoRecalc) {
+        return recalcCustomPricingSum();
+      }
+
       const ex = parseFloat(elKycExShowroom.value) || 0;
       const ins = parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0;
       const p = computeVehiclePricing(ex, ins);
@@ -996,16 +1017,16 @@
       if (elKycName && elCustomerName) elKycName.value = elCustomerName.value;
       if (elBikeModel && elBikeModel.value) {
         const m = elBikeModel.value.trim();
-        if (MODEL_PRESETS[m]) {
+        if (MODEL_PRESETS[m] && m !== 'Other') {
           if (elKycModelSelect) elKycModelSelect.value = m;
           if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
         } else if (m) {
-          if (elKycModelSelect) elKycModelSelect.value = 'Custom';
+          if (elKycModelSelect) elKycModelSelect.value = 'Other';
           if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
           if (elKycCustomModelInput) elKycCustomModelInput.value = m;
         }
       }
-      updateKycPricingDisplay();
+      recalcCustomPricingSum();
       if (kycModal) kycModal.classList.remove('hidden');
     };
     const closeKycModal = () => {
@@ -1025,32 +1046,69 @@
     if (elKycModelSelect) {
       elKycModelSelect.addEventListener('change', (e) => {
         const val = e.target.value;
-        if (val === 'Custom') {
+        if (val === 'Other') {
           if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
+          if (elKycExShowroom) elKycExShowroom.value = 0;
+          if (elKycRto) elKycRto.value = 0;
+          if (elKycInsurance) elKycInsurance.value = 0;
+          if (elKycOtherCharges) elKycOtherCharges.value = 0;
+          if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = '₹0';
+          state.exShowroom = 0;
+          state.rto = 0;
+          state.insuranceAmount = 0;
+          state.otherCharges = 0;
         } else {
           if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
           if (MODEL_PRESETS[val]) {
             if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS[val].exShowroom;
             if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS[val].insurance;
           }
+          updateKycPricingDisplay(true);
         }
-        updateKycPricingDisplay();
       });
     }
 
-    if (elKycExShowroom) elKycExShowroom.addEventListener('input', updateKycPricingDisplay);
-    if (elKycInsurance) elKycInsurance.addEventListener('input', updateKycPricingDisplay);
+    // Input listeners for all 4 pricing fields (Ex-Showroom, RTO, Insurance, Other Charges)
+    if (elKycExShowroom) {
+      elKycExShowroom.addEventListener('input', () => {
+        const val = elKycModelSelect ? elKycModelSelect.value : '';
+        if (val !== 'Other') {
+          updateKycPricingDisplay(true);
+        } else {
+          recalcCustomPricingSum();
+        }
+      });
+    }
+
+    if (elKycRto) {
+      elKycRto.addEventListener('input', recalcCustomPricingSum);
+    }
+
+    if (elKycInsurance) {
+      elKycInsurance.addEventListener('input', () => {
+        const val = elKycModelSelect ? elKycModelSelect.value : '';
+        if (val !== 'Other') {
+          updateKycPricingDisplay(true);
+        } else {
+          recalcCustomPricingSum();
+        }
+      });
+    }
+
+    if (elKycOtherCharges) {
+      elKycOtherCharges.addEventListener('input', recalcCustomPricingSum);
+    }
 
     // Apply KYC Form to Calculator
     if (applyKycBtn) {
       applyKycBtn.addEventListener('click', () => {
-        const p = updateKycPricingDisplay();
+        const p = recalcCustomPricingSum();
 
         if (elKycName && elCustomerName) elCustomerName.value = elKycName.value.trim();
 
         let chosenModel = elKycModelSelect ? elKycModelSelect.value : '';
-        if (chosenModel === 'Custom' && elKycCustomModelInput) {
-          chosenModel = elKycCustomModelInput.value.trim() || 'Custom Model';
+        if (chosenModel === 'Other' && elKycCustomModelInput) {
+          chosenModel = elKycCustomModelInput.value.trim() || 'Other';
         }
         if (elBikeModel) elBikeModel.value = chosenModel;
 
@@ -1077,8 +1135,8 @@
       copyKycLeadBtn.addEventListener('click', () => {
         if (elKycName && elCustomerName) elCustomerName.value = elKycName.value.trim();
         let chosenModel = elKycModelSelect ? elKycModelSelect.value : '';
-        if (chosenModel === 'Custom' && elKycCustomModelInput) {
-          chosenModel = elKycCustomModelInput.value.trim() || 'Custom Model';
+        if (chosenModel === 'Other' && elKycCustomModelInput) {
+          chosenModel = elKycCustomModelInput.value.trim() || 'Other';
         }
         if (elBikeModel) elBikeModel.value = chosenModel;
 
@@ -1090,7 +1148,7 @@
         if (elKycRefName) state.refName = elKycRefName.value.trim();
         if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
 
-        const p = updateKycPricingDisplay();
+        const p = recalcCustomPricingSum();
         if (p && p.totalOnRoad > 0 && elOnRoadPrice) {
           elOnRoadPrice.value = p.totalOnRoad;
         }
@@ -1140,7 +1198,7 @@
 🔗 View / Edit Application: ${window.location.href}`;
     }
 
-    // Generate Share Quote Text
+    // Generate Share Quote Text (Clean & Concise for WhatsApp without excess text)
     function generateQuoteText() {
       const res = calculateLoan(
         state.onRoadPrice,
@@ -1151,37 +1209,23 @@
         state.tenureMonths
       );
 
-      let headerLines = [];
-      if (state.customerName) {
-        let custLine = `👤 *Customer:* ${state.customerName}`;
-        if (state.mobile) custLine += ` (📱 ${state.mobile})`;
-        if (state.pincode) custLine += ` [PIN: ${state.pincode}]`;
-        headerLines.push(custLine);
-      }
-      if (state.bikeModel) {
-        headerLines.push(`🏍️ *Bike Model:* ${state.bikeModel}`);
-      }
-      if (state.exShowroom && state.rto) {
-        headerLines.push(`• *Ex-Showroom:* ${formatINR(state.exShowroom)} | *RTO (12%):* ${formatINR(state.rto)} | *Ins:* ${formatINR(state.insuranceAmount)} | *Other:* ${formatINR(state.otherCharges)}`);
-      }
-      const customerSection = headerLines.length > 0 ? headerLines.join('\n') + '\n--------------------------------\n' : '';
+      const lines = [
+        `🏍️ *BIKE LOAN & EMI QUOTATION*`,
+        `--------------------------------`
+      ];
 
-      return `🏍️ *BIKE LOAN & EMI QUOTATION*
---------------------------------
-${customerSection}• *On-Road Price:* ${formatINR(state.onRoadPrice)}
-• *File Charge (FC):* ${formatINR(state.fileCharge)}
-• *General Insurance:* ${state.insuranceAddon ? '₹1,000 (Added)' : 'Not Added (₹0)'}
-• *Down Payment (DP):* ${formatINR(state.downPayment)}
-• *Financed Loan Principal:* ${formatINR(res.principal)}
-• *Rate of Interest:* ${state.roi}% Flat p.a.
-• *Tenure:* ${state.tenureMonths} Months (${(state.tenureMonths/12).toFixed(1)} Yrs)
---------------------------------
-⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} / month
-⭐ *Net Landing Cost:* ${formatINR(res.netLanding)}
-• *Total Interest Paid:* ${formatINR(res.totalInterest)}
-• *Total Loan Repaid:* ${formatINR(res.totalRepayment)}
---------------------------------
-🔗 Calculate or view quotation: ${window.location.href}`;
+      if (state.customerName) lines.push(`👤 *Customer:* ${state.customerName}`);
+      if (state.bikeModel) lines.push(`🏍️ *Model:* ${state.bikeModel}`);
+      lines.push(`• *On-Road Price:* ${formatINR(state.onRoadPrice)}`);
+      lines.push(`• *Down Payment (DP):* ${formatINR(state.downPayment)}`);
+      lines.push(`• *Tenure:* ${state.tenureMonths} Months (${state.roi}% Flat)`);
+      lines.push(`--------------------------------`);
+      lines.push(`⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} / month`);
+      lines.push(`⭐ *Net Landing Cost:* ${formatINR(res.netLanding)}`);
+      lines.push(`--------------------------------`);
+      lines.push(`🔗 View details: ${window.location.href}`);
+
+      return lines.join('\n');
     }
 
     // URL Parameters for Easy Sharing (includes all customer & KYC details)
@@ -1199,8 +1243,10 @@ ${customerSection}• *On-Road Price:* ${formatINR(state.onRoadPrice)}
       
       // Vehicle details
       if (state.bikeModel) params.set('model', state.bikeModel);
-      if (state.exShowroom) params.set('ex', state.exShowroom);
-      if (state.insuranceAmount) params.set('ins_amt', state.insuranceAmount);
+      if (state.exShowroom !== undefined) params.set('ex', state.exShowroom);
+      if (state.rto !== undefined) params.set('rto', state.rto);
+      if (state.insuranceAmount !== undefined) params.set('ins_amt', state.insuranceAmount);
+      if (state.otherCharges !== undefined) params.set('oth', state.otherCharges);
 
       // Loan Inputs
       params.set('price', state.onRoadPrice);
@@ -1243,20 +1289,18 @@ ${customerSection}• *On-Road Price:* ${formatINR(state.onRoadPrice)}
             elKycModelSelect.value = m;
             if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
           } else {
-            elKycModelSelect.value = "Custom";
+            elKycModelSelect.value = "Other";
             if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
             if (elKycCustomModelInput) elKycCustomModelInput.value = m;
           }
         }
       }
-      if (params.has('ex')) {
-        if (elKycExShowroom) elKycExShowroom.value = params.get('ex');
-      }
-      if (params.has('ins_amt')) {
-        if (elKycInsurance) elKycInsurance.value = params.get('ins_amt');
-      }
+      if (params.has('ex') && elKycExShowroom) elKycExShowroom.value = params.get('ex');
+      if (params.has('rto') && elKycRto) elKycRto.value = params.get('rto');
+      if (params.has('ins_amt') && elKycInsurance) elKycInsurance.value = params.get('ins_amt');
+      if (params.has('oth') && elKycOtherCharges) elKycOtherCharges.value = params.get('oth');
 
-      updateKycPricingDisplay();
+      recalcCustomPricingSum();
 
       // Loan Fields
       if (params.has('price')) elOnRoadPrice.value = params.get('price');
