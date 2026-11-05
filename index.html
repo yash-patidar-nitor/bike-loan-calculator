@@ -112,93 +112,118 @@
     </div>
   </div>
 
-  <!-- Customer & Loan Form Filling Modal -->
-  <div id="kycModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-4 sm:p-6 space-y-4 shadow-2xl my-auto max-h-[92vh] flex flex-col">
+  <!-- Main Container -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    
+    <!-- Top Card: Full Customer & Bike Loan Application Form (Directly on Homepage) -->
+    <section class="bg-slate-900 rounded-2xl border border-slate-800 p-4 sm:p-5 shadow-xl space-y-4">
       
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3 shrink-0">
+      <!-- Card Header & Action Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-800 gap-2">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-400 flex items-center justify-center">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <div class="w-8 h-8 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-400 flex items-center justify-center font-bold text-sm">
+            📝
           </div>
           <div>
-            <h3 class="text-base font-bold text-white leading-tight">Customer & Bike Application Form</h3>
-            <p class="text-[11px] text-slate-400">KYC details, family & reference info, and automated On-Road calculation</p>
+            <div class="flex items-center gap-2">
+              <h2 class="text-sm sm:text-base font-bold text-white">Customer &amp; Bike Application Details</h2>
+              <span id="headerTokenBadge" class="hidden text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold"></span>
+            </div>
+            <p class="text-[11px] text-slate-400">All application &amp; vehicle details are directly visible &amp; editable</p>
           </div>
         </div>
-        <button id="closeKycModalBtn" class="text-slate-400 hover:text-white text-2xl leading-none px-2">&times;</button>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="./" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95" title="Start a fresh blank form for a new customer">
+            <span>➕ New Form</span>
+          </a>
+          <button type="button" id="submitToSheetBtn" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-md shadow-emerald-950 active:scale-95">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+            <span>Save to Sheet &amp; Allot Token</span>
+          </button>
+          <button type="button" id="copyKycLeadBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-xs transition border border-slate-700 active:scale-95 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy Full Lead</span>
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/1J9KhmScwrm8zpIr2bBzHxq0egicn70rawZh4MOW5QL8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-emerald-400 font-semibold text-xs transition border border-slate-700 flex items-center gap-1" title="Open Google Sheet">
+            <span>Sheet</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
       </div>
 
-      <!-- Modal Body (Scrollable) -->
-      <div class="space-y-4 overflow-y-auto pr-1 text-xs text-slate-300 flex-1">
+      <!-- Application Details Form Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
         
-        <!-- 1. Customer Details -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-            <span>👤</span>
-            <span>Customer Details</span>
+        <!-- LEFT: Applicant & Family Details -->
+        <div class="space-y-3.5">
+          
+          <!-- 1. Customer Details -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+              <span>👤</span>
+              <span>1. Customer Details</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+              <div class="space-y-1">
+                <label for="kycName" class="font-semibold text-slate-400 text-[11px]">Customer Name</label>
+                <input type="text" id="kycName" placeholder="Full Name"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <label for="kycCustomerDob" class="font-semibold text-slate-400 text-[11px]">Customer DOB</label>
+                <input type="date" id="kycCustomerDob"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <label for="kycMobile" class="font-semibold text-slate-400 text-[11px]">Mobile Number</label>
+                <input type="tel" id="kycMobile" placeholder="10-digit number" maxlength="10"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <label for="kycPin" class="font-semibold text-slate-400 text-[11px]">Pin Code</label>
+                <input type="text" id="kycPin" placeholder="e.g. 452001" maxlength="6"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+            </div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
-            <div class="space-y-1">
-              <label for="kycName" class="font-semibold text-slate-400 text-[11px]">Customer Name</label>
-              <input type="text" id="kycName" placeholder="Full Name"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-            <div class="space-y-1">
-              <label for="kycCustomerDob" class="font-semibold text-slate-400 text-[11px]">Customer DOB</label>
-              <input type="date" id="kycCustomerDob"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-            <div class="space-y-1">
-              <label for="kycMobile" class="font-semibold text-slate-400 text-[11px]">Mobile Number</label>
-              <input type="tel" id="kycMobile" placeholder="10-digit number" maxlength="10"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-            <div class="space-y-1">
-              <label for="kycPin" class="font-semibold text-slate-400 text-[11px]">Pin Code</label>
-              <input type="text" id="kycPin" placeholder="e.g. 452001" maxlength="6"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-          </div>
-        </div>
 
-        <!-- 2. Mother Details -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-            <span>👩</span>
-            <span>Mother Details</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div class="space-y-1">
-              <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
-              <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+          <!-- 2. Mother Details -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+              <span>👩</span>
+              <span>2. Mother Details</span>
             </div>
-            <div class="space-y-1">
-              <label for="kycMotherDob" class="font-semibold text-slate-400 text-[11px]">Mother DOB</label>
-              <input type="date" id="kycMotherDob"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div class="space-y-1">
+                <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
+                <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <label for="kycMotherDob" class="font-semibold text-slate-400 text-[11px]">Mother DOB</label>
+                <input type="date" id="kycMotherDob"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- 3. Nominee & Residence Details -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-            <span>🛡️</span>
-            <span>Nominee & Residence Details</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div class="space-y-1">
-              <label for="kycNomineeName" class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
-              <input type="text" id="kycNomineeName" placeholder="Nominee Full Name"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+          <!-- 3. Nominee & Reference Details -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+              <span>🛡️</span>
+              <span>3. Nominee &amp; Reference</span>
             </div>
-            <div class="space-y-1">
-              <label for="kycNomineeRel" class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
-              <div class="relative">
-                <select id="kycNomineeRel" class="block w-full rounded-lg bg-slate-900 border border-slate-700 py-2 pl-3 pr-8 text-white font-medium text-xs focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div class="space-y-1">
+                <label for="kycNomineeName" class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
+                <input type="text" id="kycNomineeName" placeholder="Nominee Full Name"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <label for="kycNomineeRel" class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
+                <select id="kycNomineeRel" class="block w-full rounded-lg bg-slate-900 border border-slate-700 py-2 px-2.5 text-white font-medium text-xs focus:border-rose-500 focus:outline-none">
                   <option value="Wife" selected>Wife</option>
                   <option value="Son">Son</option>
                   <option value="Mother">Mother</option>
@@ -206,219 +231,114 @@
                   <option value="Daughter">Daughter</option>
                   <option value="Other">Other</option>
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="space-y-1">
+                <label for="kycHomeMobile" class="font-semibold text-slate-400 text-[11px]">Home Mobile</label>
+                <input type="tel" id="kycHomeMobile" placeholder="Residence Contact" maxlength="10"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1 sm:col-span-1.5">
+                <label for="kycRefName" class="font-semibold text-slate-400 text-[11px]">Reference Name</label>
+                <input type="text" id="kycRefName" placeholder="Reference Person"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1 sm:col-span-1.5">
+                <label for="kycRefMobile" class="font-semibold text-slate-400 text-[11px]">Reference Mobile</label>
+                <input type="tel" id="kycRefMobile" placeholder="Ref Contact" maxlength="10"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Vehicle Model & Real-Time On-Road Calculation -->
+        <div class="space-y-3.5">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3 h-full flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
+                <div class="font-bold text-white flex items-center gap-1.5 text-xs text-amber-400">
+                  <span>🏍️</span>
+                  <span>4. Vehicle Model &amp; On-Road Price Breakdown</span>
+                </div>
+                <span class="text-[10px] text-slate-400 font-mono">Formula: Ex × 1.22</span>
+              </div>
+
+              <!-- Model Dropdown -->
+              <div class="space-y-1">
+                <label for="kycModelSelect" class="font-semibold text-slate-300 text-[11px]">Select Hero Bike Model</label>
+                <select id="kycModelSelect" class="block w-full rounded-xl bg-slate-900 border border-slate-700 py-2.5 px-3 text-white font-semibold text-xs sm:text-sm focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
+                  <option value="Splendor Self" selected>Splendor Self (Ex: ₹78,299)</option>
+                  <option value="Splendor BLA">Splendor BLA (Ex: ₹79,381)</option>
+                  <option value="Splendor Xtec">Splendor Xtec (Ex: ₹82,118)</option>
+                  <option value="Splendor Xtec 2.0">Splendor Xtec 2.0 (Ex: ₹84,359)</option>
+                  <option value="HF Deluxe BLK">HF Deluxe BLK (Ex: ₹59,999)</option>
+                  <option value="HF Deluxe Self">HF Deluxe Self (Ex: ₹65,702)</option>
+                  <option value="HF Deluxe Pro">HF Deluxe Pro (Ex: ₹70,258)</option>
+                  <option value="Other">Other (Custom model name &amp; pricing)</option>
+                </select>
+              </div>
+
+              <!-- Custom Model Input (shown if Other) -->
+              <div id="kycCustomModelRow" class="hidden space-y-1">
+                <label for="kycCustomModelInput" class="font-semibold text-slate-400 text-[11px]">Specify Custom Model Name</label>
+                <input type="text" id="kycCustomModelInput" placeholder="Enter model name (e.g. Activa 6G, Pulsar 150)"
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+
+              <!-- Price Components Grid (All Editable) -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                  <label for="kycExShowroom" class="font-medium text-slate-400 text-[10px] block">Ex-Showroom (₹)</label>
+                  <input type="number" id="kycExShowroom" value="78299" min="0" step="500"
+                    class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-bold font-mono text-xs focus:border-rose-500 focus:outline-none">
+                </div>
+                <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                  <label for="kycRto" class="font-medium text-slate-400 text-[10px] block">RTO 12% (₹)</label>
+                  <input type="number" id="kycRto" value="9396" min="0" step="100"
+                    class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-emerald-400 font-bold font-mono text-xs focus:border-emerald-500 focus:outline-none">
+                </div>
+                <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                  <label for="kycInsurance" class="font-medium text-slate-400 text-[10px] block">Insurance (₹)</label>
+                  <input type="number" id="kycInsurance" value="5000" min="0" step="100"
+                    class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-indigo-400 font-bold font-mono text-xs focus:border-indigo-500 focus:outline-none">
+                </div>
+                <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                  <label for="kycOtherCharges" class="font-medium text-slate-400 text-[10px] block">Other Charges (₹)</label>
+                  <input type="number" id="kycOtherCharges" value="2830" min="0" step="100"
+                    class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-amber-400 font-bold font-mono text-xs focus:border-amber-500 focus:outline-none">
                 </div>
               </div>
             </div>
-            <div class="space-y-1">
-              <label for="kycHomeMobile" class="font-semibold text-slate-400 text-[11px]">Home Mobile Number</label>
-              <input type="tel" id="kycHomeMobile" placeholder="Residence contact" maxlength="10"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-          </div>
-        </div>
 
-        <!-- 4. Reference Details -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-            <span>👥</span>
-            <span>Reference Details</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div class="space-y-1">
-              <label for="kycRefName" class="font-semibold text-slate-400 text-[11px]">Reference Name</label>
-              <input type="text" id="kycRefName" placeholder="Reference full name"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-            <div class="space-y-1">
-              <label for="kycRefMobile" class="font-semibold text-slate-400 text-[11px]">Reference Mobile Number</label>
-              <input type="tel" id="kycRefMobile" placeholder="10-digit number" maxlength="10"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Vehicle Model & Pricing Breakdown -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
-          <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-amber-400">
-              <span>🏍️</span>
-              <span>Vehicle Model & On-Road Price Calculation</span>
-            </div>
-            <span class="text-[10px] text-slate-400">Ex-Showroom × 1.22</span>
-          </div>
-
-          <!-- Model Dropdown (Without Insurance, with New Models) -->
-          <div class="space-y-1">
-            <label for="kycModelSelect" class="font-semibold text-slate-300 text-[11px]">Select Model</label>
-            <div class="relative">
-              <select id="kycModelSelect" class="block w-full rounded-xl bg-slate-900 border border-slate-700 py-2.5 pl-3 pr-8 text-white font-semibold text-xs sm:text-sm focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
-                <option value="Splendor Self" selected>Splendor Self (Ex: ₹78,299)</option>
-                <option value="Splendor BLA">Splendor BLA (Ex: ₹79,381)</option>
-                <option value="Splendor Xtec">Splendor Xtec (Ex: ₹82,118)</option>
-                <option value="Splendor Xtec 2.0">Splendor Xtec 2.0 (Ex: ₹84,359)</option>
-                <option value="HF Deluxe BLK">HF Deluxe BLK (Ex: ₹59,999)</option>
-                <option value="HF Deluxe Self">HF Deluxe Self (Ex: ₹65,702)</option>
-                <option value="HF Deluxe Pro">HF Deluxe Pro (Ex: ₹70,258)</option>
-                <option value="Other">Other (All fields default to 0)</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <!-- Total On-Road Banner (Linked to Calculator) -->
+            <div class="p-3 mt-2 rounded-xl bg-gradient-to-r from-rose-950/80 via-slate-900 to-slate-900 border border-rose-800/80 flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase font-bold text-rose-300 tracking-wider">Calculated On-Road Price</div>
+                <div class="text-[11px] text-slate-400">Directly syncs into the Loan Inputs below</div>
+              </div>
+              <div class="text-right">
+                <span id="kycTotalOnRoad" class="text-xl font-extrabold text-white font-mono">₹95,525</span>
               </div>
             </div>
+
           </div>
-
-          <!-- Custom Model Name input (shown when Other) -->
-          <div id="kycCustomModelRow" class="hidden space-y-1">
-            <label for="kycCustomModelInput" class="font-semibold text-slate-400 text-[11px]">Specify Model Name</label>
-            <input type="text" id="kycCustomModelInput" placeholder="Enter model name (e.g. Activa 6G, Pulsar 150)"
-              class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-          </div>
-
-          <!-- Price Components Grid (All Editable) -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-            <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <label for="kycExShowroom" class="font-medium text-slate-400 text-[10px] block">Ex-Showroom (₹)</label>
-              <input type="number" id="kycExShowroom" value="78299" min="0" step="500"
-                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-bold font-mono text-xs focus:border-rose-500 focus:outline-none">
-            </div>
-
-            <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <label for="kycRto" class="font-medium text-slate-400 text-[10px] block">RTO (12%) (₹)</label>
-              <input type="number" id="kycRto" value="9396" min="0" step="100"
-                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-emerald-400 font-bold font-mono text-xs focus:border-emerald-500 focus:outline-none">
-            </div>
-
-            <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <label for="kycInsurance" class="font-medium text-slate-400 text-[10px] block">Insurance (₹)</label>
-              <input type="number" id="kycInsurance" value="5000" min="0" step="100"
-                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-indigo-400 font-bold font-mono text-xs focus:border-indigo-500 focus:outline-none">
-            </div>
-
-            <div class="space-y-1 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-              <label for="kycOtherCharges" class="font-medium text-slate-400 text-[10px] block">Other Charges (₹)</label>
-              <input type="number" id="kycOtherCharges" value="2830" min="0" step="100"
-                class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-amber-400 font-bold font-mono text-xs focus:border-amber-500 focus:outline-none">
-            </div>
-          </div>
-
-          <!-- Total Calculated On-Road Price Result Banner -->
-          <div class="p-3 rounded-xl bg-gradient-to-r from-rose-950/80 via-slate-900 to-slate-900 border border-rose-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div>
-              <div class="text-[10px] uppercase font-bold text-rose-300 tracking-wider">Calculated Bike On-Road Price</div>
-              <div class="text-[11px] text-slate-400">Ex-Showroom + RTO + Insurance + Other Charges</div>
-            </div>
-            <div class="text-right">
-              <span id="kycTotalOnRoad" class="text-xl font-extrabold text-white font-mono">₹95,525</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 6. Google Sheet Status -->
-        <div class="bg-emerald-950/30 p-3 rounded-xl border border-emerald-800/60 flex items-center justify-between text-xs">
-          <div class="flex items-center gap-2">
-            <span class="text-base">📊</span>
-            <div>
-              <span class="font-bold text-white text-xs block">Google Sheet Case Persistence</span>
-              <span class="text-[11px] text-slate-400">Cases &amp; Tokens persist to Hero Fincorp Cases</span>
-            </div>
-          </div>
-          <a href="https://docs.google.com/spreadsheets/d/1J9KhmScwrm8zpIr2bBzHxq0egicn70rawZh4MOW5QL8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 font-semibold text-[11px] transition flex items-center gap-1 border border-emerald-700/50">
-            <span>Open Sheet</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
         </div>
 
       </div>
 
-      <!-- Modal Footer -->
-      <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row gap-2 shrink-0">
-        <button type="button" id="submitToSheetBtn" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950 active:scale-95">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-          <span>Save to Google Sheet &amp; Allot Token</span>
-        </button>
-        <button type="button" id="applyKycBtn" class="py-2.5 px-3 bg-rose-700 hover:bg-rose-600 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center gap-1.5 active:scale-95">
-          <span>Apply to Calculator Only</span>
-        </button>
-        <button type="button" id="copyKycLeadBtn" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-xs transition flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-          <span>Copy Lead</span>
-        </button>
-        <button type="button" id="closeKycModalFooterBtn" class="py-2.5 px-3 bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white font-medium rounded-xl text-xs transition border border-slate-800">
-          Cancel
-        </button>
-      </div>
+    </section>
 
-    </div>
-  </div>
-
-  <!-- Main Container -->
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-    
-    <!-- Core Two-Column Layout -->
+    <!-- Core Two-Column Loan & Quotation Layout -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
       
-      <!-- LEFT: Inputs (5 Cols on MD) -->
+      <!-- LEFT: Loan Financing Inputs (5 Cols on MD) -->
       <section class="md:col-span-5 space-y-4">
         <div class="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4 shadow-xl">
           
           <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-            <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Input Details</span>
-            <button id="resetDefaultsBtn" class="text-xs text-rose-400 hover:text-rose-300 transition">Reset</button>
-          </div>
-
-          <!-- Customer & Vehicle Model (Form Fill Trigger & Conditional Display) -->
-          <div id="mainCustomerSection" class="pb-2 border-b border-slate-800/80 space-y-2">
-            
-            <!-- Hidden inputs to retain state & form compatibility -->
-            <input type="hidden" id="customerName" value="">
-            <input type="hidden" id="bikeModel" value="">
-
-            <!-- 1. State when Form is NOT yet filled: Clean Form Fill Action Button -->
-            <div id="unfilledCustomerPrompt" class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-rose-900/60 transition group cursor-pointer" title="Click to open customer & bike form">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-300 flex items-center justify-center font-bold text-sm group-hover:scale-105 transition">
-                  📝
-                </div>
-                <div>
-                  <div class="text-xs font-bold text-white group-hover:text-rose-300 transition">Customer & Bike Details</div>
-                  <div class="text-[11px] text-slate-400">Click to fill form for lead & on-road calculation</div>
-                </div>
-              </div>
-              <button type="button" id="openKycModalBtn" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-600 hover:bg-rose-500 text-white transition shadow-sm active:scale-95 flex items-center gap-1">
-                <span>Form Fill</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-
-            <!-- 2. State when Form IS filled: Visible Customer & Bike Details Card -->
-            <div id="filledCustomerCard" class="hidden p-3 rounded-xl bg-gradient-to-r from-rose-950/40 via-slate-950 to-slate-950 border border-rose-900/60 space-y-2">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-6 rounded-md bg-rose-600/20 text-rose-300 flex items-center justify-center text-xs font-bold">👤</span>
-                  <span class="text-[11px] font-bold uppercase tracking-wider text-rose-300">Customer &amp; Vehicle Details</span>
-                  <span id="displayTokenBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold"></span>
-                </div>
-                <button type="button" id="editKycModalBtn" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1 hover:underline">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                  <span>Edit Form</span>
-                </button>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-800/80 text-xs">
-                <div class="bg-slate-900/80 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center justify-between">
-                  <span class="text-slate-400 text-[11px]">Customer:</span>
-                  <span id="displayCustomerName" class="font-bold text-white text-xs truncate max-w-[150px]"></span>
-                </div>
-                <div class="bg-slate-900/80 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center justify-between">
-                  <span class="text-slate-400 text-[11px]">Model:</span>
-                  <span id="displayBikeModel" class="font-bold text-rose-300 text-xs truncate max-w-[150px]"></span>
-                </div>
-              </div>
-            </div>
-
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Loan &amp; EMI Inputs</span>
+            <button id="resetDefaultsBtn" class="text-xs text-rose-400 hover:text-rose-300 transition">Reset All</button>
           </div>
 
           <!-- 1. On-Road Price -->
@@ -754,40 +674,12 @@
       tenureOptions: [12, 18, 24, 30, 36]
     };
 
-    // DOM Elements
-    const elCustomerName = document.getElementById('customerName');
-    const elBikeModel = document.getElementById('bikeModel');
-    const elOnRoadPrice = document.getElementById('onRoadPrice');
-    const elPriceInWords = document.getElementById('priceInWords');
-    const elDownPayment = document.getElementById('downPayment');
-    const elFileCharge = document.getElementById('fileCharge');
-    const elInsuranceCheck = document.getElementById('insuranceCheck');
-    const elRoiSelect = document.getElementById('roiSelect');
-    const elTenureSelect = document.getElementById('tenureSelect');
-    const elTenureInYearsLabel = document.getElementById('tenureInYearsLabel');
-    const quoteCustomerBanner = document.getElementById('quoteCustomerBanner');
-    const bannerCustomerName = document.getElementById('bannerCustomerName');
-    const bannerBikeModelContainer = document.getElementById('bannerBikeModelContainer');
-    const bannerBikeModel = document.getElementById('bannerBikeModel');
-    const bannerTokenBadge = document.getElementById('bannerTokenBadge');
-
-    // Main Screen Customer & Model Visibility Elements
-    const unfilledCustomerPrompt = document.getElementById('unfilledCustomerPrompt');
-    const filledCustomerCard = document.getElementById('filledCustomerCard');
-    const displayCustomerName = document.getElementById('displayCustomerName');
-    const displayBikeModel = document.getElementById('displayBikeModel');
-    const displayTokenBadge = document.getElementById('displayTokenBadge');
-    const editKycModalBtn = document.getElementById('editKycModalBtn');
-
-    // KYC Form DOM Elements
-    const kycModal = document.getElementById('kycModal');
-    const openKycModalBtn = document.getElementById('openKycModalBtn');
-    const closeKycModalBtn = document.getElementById('closeKycModalBtn');
-    const closeKycModalFooterBtn = document.getElementById('closeKycModalFooterBtn');
-    const applyKycBtn = document.getElementById('applyKycBtn');
-    const copyKycLeadBtn = document.getElementById('copyKycLeadBtn');
+    // DOM Elements - Header & Action
+    const headerTokenBadge = document.getElementById('headerTokenBadge');
     const submitToSheetBtn = document.getElementById('submitToSheetBtn');
+    const copyKycLeadBtn = document.getElementById('copyKycLeadBtn');
 
+    // DOM Elements - Customer Form (Directly on Homepage)
     const elKycName = document.getElementById('kycName');
     const elKycCustomerDob = document.getElementById('kycCustomerDob');
     const elKycMobile = document.getElementById('kycMobile');
@@ -800,6 +692,7 @@
     const elKycRefName = document.getElementById('kycRefName');
     const elKycRefMobile = document.getElementById('kycRefMobile');
 
+    // DOM Elements - Vehicle Pricing
     const elKycModelSelect = document.getElementById('kycModelSelect');
     const elKycCustomModelRow = document.getElementById('kycCustomModelRow');
     const elKycCustomModelInput = document.getElementById('kycCustomModelInput');
@@ -808,6 +701,23 @@
     const elKycInsurance = document.getElementById('kycInsurance');
     const elKycOtherCharges = document.getElementById('kycOtherCharges');
     const elKycTotalOnRoad = document.getElementById('kycTotalOnRoad');
+
+    // DOM Elements - Core Loan Inputs
+    const elOnRoadPrice = document.getElementById('onRoadPrice');
+    const elPriceInWords = document.getElementById('priceInWords');
+    const elDownPayment = document.getElementById('downPayment');
+    const elFileCharge = document.getElementById('fileCharge');
+    const elInsuranceCheck = document.getElementById('insuranceCheck');
+    const elRoiSelect = document.getElementById('roiSelect');
+    const elTenureSelect = document.getElementById('tenureSelect');
+    const elTenureInYearsLabel = document.getElementById('tenureInYearsLabel');
+
+    // DOM Elements - Dynamic Quotation Banner
+    const quoteCustomerBanner = document.getElementById('quoteCustomerBanner');
+    const bannerCustomerName = document.getElementById('bannerCustomerName');
+    const bannerBikeModelContainer = document.getElementById('bannerBikeModelContainer');
+    const bannerBikeModel = document.getElementById('bannerBikeModel');
+    const bannerTokenBadge = document.getElementById('bannerTokenBadge');
 
     // Outputs
     const elDispEmi = document.getElementById('dispEmi');
@@ -883,8 +793,26 @@
 
     // Main Update View Function
     function updateCalculator() {
-      const customer = (elCustomerName ? elCustomerName.value : '').trim();
-      const model = (elBikeModel ? elBikeModel.value : '').trim();
+      // Sync form values into state
+      state.customerName = (elKycName ? elKycName.value : '').trim();
+      state.customerDob = elKycCustomerDob ? elKycCustomerDob.value : '';
+      state.mobile = (elKycMobile ? elKycMobile.value : '').trim();
+      state.pincode = (elKycPin ? elKycPin.value : '').trim();
+      state.motherName = (elKycMotherName ? elKycMotherName.value : '').trim();
+      state.motherDob = elKycMotherDob ? elKycMotherDob.value : '';
+      state.nomineeName = (elKycNomineeName ? elKycNomineeName.value : '').trim();
+      state.nomineeRel = elKycNomineeRel ? elKycNomineeRel.value : 'Wife';
+      state.homeMobile = (elKycHomeMobile ? elKycHomeMobile.value : '').trim();
+      state.refName = (elKycRefName ? elKycRefName.value : '').trim();
+      state.refMobile = (elKycRefMobile ? elKycRefMobile.value : '').trim();
+
+      const selectedModel = elKycModelSelect ? elKycModelSelect.value : '';
+      if (selectedModel === 'Other') {
+        state.bikeModel = (elKycCustomModelInput && elKycCustomModelInput.value.trim()) || 'Other';
+      } else if (selectedModel) {
+        state.bikeModel = selectedModel;
+      }
+
       const onRoad = Math.max(0, parseFloat(elOnRoadPrice.value) || 0);
       const dp = Math.max(0, parseFloat(elDownPayment.value) || 0);
       const fileCharge = Math.max(0, parseFloat(elFileCharge ? elFileCharge.value : 7500) || 0);
@@ -893,8 +821,6 @@
       const tenure = parseInt(elTenureSelect.value) || 24;
 
       // Update state
-      state.customerName = customer;
-      state.bikeModel = model;
       state.onRoadPrice = onRoad;
       state.downPayment = dp;
       state.fileCharge = fileCharge;
@@ -902,50 +828,36 @@
       state.roi = roi;
       state.tenureMonths = tenure;
 
-      // Conditional Main Screen Visibility (Customer Name & Bike Model Name visible ONLY after filling form)
-      const hasCustomerOrModel = Boolean(customer || model);
-      if (unfilledCustomerPrompt && filledCustomerCard) {
-        if (hasCustomerOrModel) {
-          unfilledCustomerPrompt.classList.add('hidden');
-          filledCustomerCard.classList.remove('hidden');
-          if (displayCustomerName) displayCustomerName.textContent = customer || 'N/A';
-          if (displayBikeModel) displayBikeModel.textContent = model || 'N/A';
-          if (displayTokenBadge) {
-            if (state.tokenNumber) {
-              displayTokenBadge.textContent = state.tokenNumber;
-              displayTokenBadge.classList.remove('hidden');
-            } else {
-              displayTokenBadge.classList.add('hidden');
-            }
-          }
-        } else {
-          unfilledCustomerPrompt.classList.remove('hidden');
-          filledCustomerCard.classList.add('hidden');
+      // Update Header & Banner Token Badges
+      if (state.tokenNumber) {
+        if (headerTokenBadge) {
+          headerTokenBadge.textContent = state.tokenNumber;
+          headerTokenBadge.classList.remove('hidden');
         }
+        if (bannerTokenBadge) {
+          bannerTokenBadge.textContent = state.tokenNumber;
+          bannerTokenBadge.classList.remove('hidden');
+        }
+      } else {
+        if (headerTokenBadge) headerTokenBadge.classList.add('hidden');
+        if (bannerTokenBadge) bannerTokenBadge.classList.add('hidden');
       }
 
       // Update Customer Banner
+      const hasCustOrModel = Boolean(state.customerName || state.bikeModel);
       if (quoteCustomerBanner) {
-        if (hasCustomerOrModel) {
+        if (hasCustOrModel) {
           quoteCustomerBanner.classList.remove('hidden');
-          if (customer) {
-            bannerCustomerName.textContent = customer;
+          if (state.customerName) {
+            bannerCustomerName.textContent = state.customerName;
             bannerCustomerName.parentElement.style.display = 'block';
           } else {
             bannerCustomerName.parentElement.style.display = 'none';
           }
-          if (bannerTokenBadge) {
-            if (state.tokenNumber) {
-              bannerTokenBadge.textContent = state.tokenNumber;
-              bannerTokenBadge.classList.remove('hidden');
-            } else {
-              bannerTokenBadge.classList.add('hidden');
-            }
-          }
-          if (model) {
+          if (state.bikeModel) {
             bannerBikeModelContainer.classList.remove('hidden');
             bannerBikeModelContainer.classList.add('flex');
-            bannerBikeModel.textContent = model;
+            bannerBikeModel.textContent = state.bikeModel;
           } else {
             bannerBikeModelContainer.classList.add('hidden');
             bannerBikeModelContainer.classList.remove('flex');
@@ -1120,31 +1032,36 @@
       return { ex, rto, ins, otherCharges, totalOnRoad };
     }
 
-    function recalcCustomPricingSum() {
-      const ex = Math.max(0, parseFloat(elKycExShowroom ? elKycExShowroom.value : 0) || 0);
-      const rto = Math.max(0, parseFloat(elKycRto ? elKycRto.value : 0) || 0);
-      const ins = Math.max(0, parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0);
-      const other = Math.max(0, parseFloat(elKycOtherCharges ? elKycOtherCharges.value : 0) || 0);
-      const totalOnRoad = ex + rto + ins + other;
+    // Live Vehicle Pricing & On-Road Calculation
+    function recalcVehiclePricing(syncToLoan = true) {
+      const selectedModel = elKycModelSelect ? elKycModelSelect.value : 'Splendor Self';
 
-      if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = formatINR(totalOnRoad);
-      state.exShowroom = ex;
-      state.rto = rto;
-      state.insuranceAmount = ins;
-      state.otherCharges = other;
-      return { ex, rto, ins, otherCharges: other, totalOnRoad };
-    }
+      if (selectedModel === 'Other') {
+        if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
+        const ex = Math.max(0, parseFloat(elKycExShowroom ? elKycExShowroom.value : 0) || 0);
+        const rto = Math.max(0, parseFloat(elKycRto ? elKycRto.value : 0) || 0);
+        const ins = Math.max(0, parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0);
+        const oth = Math.max(0, parseFloat(elKycOtherCharges ? elKycOtherCharges.value : 0) || 0);
+        const total = ex + rto + ins + oth;
 
-    function updateKycPricingDisplay(autoRecalc = true) {
-      if (!elKycExShowroom) return null;
-      const selectedModel = elKycModelSelect ? elKycModelSelect.value : '';
+        state.exShowroom = ex;
+        state.rto = rto;
+        state.insuranceAmount = ins;
+        state.otherCharges = oth;
+        state.bikeModel = (elKycCustomModelInput && elKycCustomModelInput.value.trim()) || 'Other';
 
-      if (selectedModel === 'Other' || !autoRecalc) {
-        return recalcCustomPricingSum();
+        if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = formatINR(total);
+        if (syncToLoan && total > 0 && elOnRoadPrice) {
+          elOnRoadPrice.value = total;
+        }
+        updateCalculator();
+        return;
       }
 
-      const ex = parseFloat(elKycExShowroom.value) || 0;
-      const ins = parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0;
+      if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
+      const ex = Math.max(0, parseFloat(elKycExShowroom ? elKycExShowroom.value : 0) || 0);
+      const ins = Math.max(0, parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0);
+
       const p = computeVehiclePricing(ex, ins);
 
       if (elKycRto) elKycRto.value = p.rto;
@@ -1155,68 +1072,15 @@
       state.rto = p.rto;
       state.insuranceAmount = p.ins;
       state.otherCharges = p.otherCharges;
-      return p;
-    }
+      state.bikeModel = selectedModel;
 
-    // KYC Modal Event Handlers
-    const openKycModal = () => {
-      if (elKycName && elCustomerName) elKycName.value = elCustomerName.value;
-      if (elKycCustomerDob) elKycCustomerDob.value = state.customerDob || '';
-      if (elKycMobile) elKycMobile.value = state.mobile || '';
-      if (elKycPin) elKycPin.value = state.pincode || '';
-      if (elKycMotherName) elKycMotherName.value = state.motherName || '';
-      if (elKycMotherDob) elKycMotherDob.value = state.motherDob || '';
-      if (elKycNomineeName) elKycNomineeName.value = state.nomineeName || '';
-      if (elKycNomineeRel) elKycNomineeRel.value = state.nomineeRel || 'Wife';
-      if (elKycHomeMobile) elKycHomeMobile.value = state.homeMobile || '';
-      if (elKycRefName) elKycRefName.value = state.refName || '';
-      if (elKycRefMobile) elKycRefMobile.value = state.refMobile || '';
-
-      if (elBikeModel && elBikeModel.value) {
-        const m = elBikeModel.value.trim();
-        if (MODEL_PRESETS[m] && m !== 'Other') {
-          if (elKycModelSelect) elKycModelSelect.value = m;
-          if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
-        } else if (m) {
-          if (elKycModelSelect) elKycModelSelect.value = 'Other';
-          if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
-          if (elKycCustomModelInput) elKycCustomModelInput.value = m;
-        }
-      } else {
-        if (elKycModelSelect && (!elKycModelSelect.value || elKycModelSelect.value === 'Other')) {
-          elKycModelSelect.value = 'Splendor Self';
-          if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
-          if (MODEL_PRESETS['Splendor Self']) {
-            if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS['Splendor Self'].exShowroom;
-            if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
-          }
-        }
+      if (syncToLoan && p.totalOnRoad > 0 && elOnRoadPrice) {
+        elOnRoadPrice.value = p.totalOnRoad;
       }
-      recalcCustomPricingSum();
-      if (kycModal) kycModal.classList.remove('hidden');
-    };
-    const closeKycModal = () => {
-      if (kycModal) kycModal.classList.add('hidden');
-    };
-
-    if (unfilledCustomerPrompt) unfilledCustomerPrompt.addEventListener('click', openKycModal);
-    if (openKycModalBtn) openKycModalBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openKycModal();
-    });
-    if (editKycModalBtn) editKycModalBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openKycModal();
-    });
-    if (closeKycModalBtn) closeKycModalBtn.addEventListener('click', closeKycModal);
-    if (closeKycModalFooterBtn) closeKycModalFooterBtn.addEventListener('click', closeKycModal);
-    if (kycModal) {
-      kycModal.addEventListener('click', (e) => {
-        if (e.target === kycModal) closeKycModal();
-      });
+      updateCalculator();
     }
 
-    // Model Dropdown Change in Modal
+    // Model Dropdown Change Listener
     if (elKycModelSelect) {
       elKycModelSelect.addEventListener('change', (e) => {
         const val = e.target.value;
@@ -1227,113 +1091,45 @@
           if (elKycInsurance) elKycInsurance.value = 0;
           if (elKycOtherCharges) elKycOtherCharges.value = 0;
           if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = '₹0';
-          state.exShowroom = 0;
-          state.rto = 0;
-          state.insuranceAmount = 0;
-          state.otherCharges = 0;
+          recalcVehiclePricing(true);
         } else {
           if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
           if (MODEL_PRESETS[val]) {
             if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS[val].exShowroom;
             if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS[val].insurance;
           }
-          updateKycPricingDisplay(true);
+          recalcVehiclePricing(true);
         }
       });
     }
 
-    // Input listeners for all 4 pricing fields (Ex-Showroom, RTO, Insurance, Other Charges)
+    if (elKycCustomModelInput) {
+      elKycCustomModelInput.addEventListener('input', () => {
+        state.bikeModel = elKycCustomModelInput.value.trim() || 'Other';
+        updateCalculator();
+      });
+    }
+
+    // Input listeners for vehicle pricing fields (Ex-Showroom, RTO, Insurance, Other Charges)
     if (elKycExShowroom) {
       elKycExShowroom.addEventListener('input', () => {
         const val = elKycModelSelect ? elKycModelSelect.value : '';
-        if (val !== 'Other') {
-          updateKycPricingDisplay(true);
-        } else {
-          recalcCustomPricingSum();
-        }
+        recalcVehiclePricing(true);
       });
     }
-
     if (elKycRto) {
-      elKycRto.addEventListener('input', recalcCustomPricingSum);
+      elKycRto.addEventListener('input', () => recalcVehiclePricing(true));
     }
-
     if (elKycInsurance) {
-      elKycInsurance.addEventListener('input', () => {
-        const val = elKycModelSelect ? elKycModelSelect.value : '';
-        if (val !== 'Other') {
-          updateKycPricingDisplay(true);
-        } else {
-          recalcCustomPricingSum();
-        }
-      });
+      elKycInsurance.addEventListener('input', () => recalcVehiclePricing(true));
     }
-
     if (elKycOtherCharges) {
-      elKycOtherCharges.addEventListener('input', recalcCustomPricingSum);
+      elKycOtherCharges.addEventListener('input', () => recalcVehiclePricing(true));
     }
 
-    // Apply KYC Form to Calculator
-    if (applyKycBtn) {
-      applyKycBtn.addEventListener('click', () => {
-        const p = recalcCustomPricingSum();
-
-        if (elKycName && elCustomerName) elCustomerName.value = elKycName.value.trim();
-        if (elKycCustomerDob) state.customerDob = elKycCustomerDob.value;
-
-        let chosenModel = elKycModelSelect ? elKycModelSelect.value : '';
-        if (chosenModel === 'Other' && elKycCustomModelInput) {
-          chosenModel = elKycCustomModelInput.value.trim() || 'Other';
-        }
-        if (elBikeModel) elBikeModel.value = chosenModel;
-
-        if (elKycMobile) state.mobile = elKycMobile.value.trim();
-        if (elKycPin) state.pincode = elKycPin.value.trim();
-        if (elKycMotherName) state.motherName = elKycMotherName.value.trim();
-        if (elKycMotherDob) state.motherDob = elKycMotherDob.value;
-        if (elKycNomineeName) state.nomineeName = elKycNomineeName.value.trim();
-        if (elKycNomineeRel) state.nomineeRel = elKycNomineeRel.value;
-        if (elKycHomeMobile) state.homeMobile = elKycHomeMobile.value.trim();
-        if (elKycRefName) state.refName = elKycRefName.value.trim();
-        if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
-
-        if (p && p.totalOnRoad > 0 && elOnRoadPrice) {
-          elOnRoadPrice.value = p.totalOnRoad;
-        }
-
-        closeKycModal();
-        updateCalculator();
-        showToast("Applied customer details & on-road calculation!");
-      });
-    }
-
-    // Copy Lead Summary
+    // Copy Lead Summary Button
     if (copyKycLeadBtn) {
       copyKycLeadBtn.addEventListener('click', () => {
-        if (elKycName && elCustomerName) elCustomerName.value = elKycName.value.trim();
-        if (elKycCustomerDob) state.customerDob = elKycCustomerDob.value;
-
-        let chosenModel = elKycModelSelect ? elKycModelSelect.value : '';
-        if (chosenModel === 'Other' && elKycCustomModelInput) {
-          chosenModel = elKycCustomModelInput.value.trim() || 'Other';
-        }
-        if (elBikeModel) elBikeModel.value = chosenModel;
-
-        if (elKycMobile) state.mobile = elKycMobile.value.trim();
-        if (elKycPin) state.pincode = elKycPin.value.trim();
-        if (elKycMotherName) state.motherName = elKycMotherName.value.trim();
-        if (elKycMotherDob) state.motherDob = elKycMotherDob.value;
-        if (elKycNomineeName) state.nomineeName = elKycNomineeName.value.trim();
-        if (elKycNomineeRel) state.nomineeRel = elKycNomineeRel.value;
-        if (elKycHomeMobile) state.homeMobile = elKycHomeMobile.value.trim();
-        if (elKycRefName) state.refName = elKycRefName.value.trim();
-        if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
-
-        const p = recalcCustomPricingSum();
-        if (p && p.totalOnRoad > 0 && elOnRoadPrice) {
-          elOnRoadPrice.value = p.totalOnRoad;
-        }
-
         updateCalculator();
         copyText(generateLeadText(), "Full loan application lead copied to clipboard!");
       });
@@ -1356,7 +1152,7 @@
 👤 *Applicant Name:* ${state.customerName || 'N/A'}
 🎂 *Customer DOB:* ${state.customerDob || 'N/A'}
 📱 *Mobile Number:* ${state.mobile || 'N/A'}
-📍 *Pin Code:* ${state.pincode || 'N/A'}`;
+📍 *Pin Code:* ${state.pincode || 'N/A'}
 
 👩 *Mother Name:* ${state.motherName || 'N/A'}
 🎂 *Mother DOB:* ${state.motherDob || 'N/A'}
@@ -1458,23 +1254,24 @@
 
     function loadFromUrlParams() {
       const params = new URLSearchParams(window.location.search);
+      const hasAnyParams = window.location.search.length > 1;
+
       // Token Number
       if (params.has('token')) {
         state.tokenNumber = params.get('token');
       }
 
-      // Customer
+      // Customer Name
       let cName = '';
       if (params.has('customer')) cName = params.get('customer');
       else if (params.has('cust')) cName = params.get('cust');
       else if (params.has('name')) cName = params.get('name');
       if (cName) {
-        if (elCustomerName) elCustomerName.value = cName;
         state.customerName = cName;
         if (elKycName) elKycName.value = cName;
       }
 
-      // Lead fields
+      // Customer & Family Lead fields
       if (params.has('c_dob')) { state.customerDob = params.get('c_dob'); if (elKycCustomerDob) elKycCustomerDob.value = state.customerDob; }
       if (params.has('mob')) { state.mobile = params.get('mob'); if (elKycMobile) elKycMobile.value = state.mobile; }
       if (params.has('pin')) { state.pincode = params.get('pin'); if (elKycPin) elKycPin.value = state.pincode; }
@@ -1486,10 +1283,9 @@
       if (params.has('ref_name')) { state.refName = params.get('ref_name'); if (elKycRefName) elKycRefName.value = state.refName; }
       if (params.has('ref_mob')) { state.refMobile = params.get('ref_mob'); if (elKycRefMobile) elKycRefMobile.value = state.refMobile; }
 
-      // Vehicle
+      // Vehicle Model & Pricing
       if (params.has('model')) {
         const m = params.get('model');
-        if (elBikeModel) elBikeModel.value = m;
         state.bikeModel = m;
         if (elKycModelSelect) {
           if (MODEL_PRESETS[m] && m !== 'Other') {
@@ -1501,19 +1297,24 @@
             if (elKycCustomModelInput) elKycCustomModelInput.value = m;
           }
         }
+      } else {
+        if (elKycModelSelect) elKycModelSelect.value = 'Splendor Self';
+        if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
       }
+
       if (params.has('ex') && elKycExShowroom) elKycExShowroom.value = params.get('ex');
       if (params.has('rto') && elKycRto) elKycRto.value = params.get('rto');
       if (params.has('ins_amt') && elKycInsurance) elKycInsurance.value = params.get('ins_amt');
       if (params.has('oth') && elKycOtherCharges) elKycOtherCharges.value = params.get('oth');
 
-      recalcCustomPricingSum();
+      // Recalculate vehicle breakdown (sync to loan only if price wasn't explicitly given in URL)
+      recalcVehiclePricing(!params.has('price'));
 
       // Loan Fields
-      if (params.has('price')) elOnRoadPrice.value = params.get('price');
-      if (params.has('dp')) elDownPayment.value = params.get('dp');
-      if (params.has('fc')) elFileCharge.value = params.get('fc');
-      if (params.has('ins')) elInsuranceCheck.checked = params.get('ins') === '1';
+      if (params.has('price') && elOnRoadPrice) elOnRoadPrice.value = params.get('price');
+      if (params.has('dp') && elDownPayment) elDownPayment.value = params.get('dp');
+      if (params.has('fc') && elFileCharge) elFileCharge.value = params.get('fc');
+      if (params.has('ins') && elInsuranceCheck) elInsuranceCheck.checked = params.get('ins') === '1';
       if (params.has('tenure')) {
         const t = parseInt(params.get('tenure'));
         if ([12, 18, 24, 30, 36].includes(t)) setTenure(t);
@@ -1522,28 +1323,77 @@
         const r = parseFloat(params.get('roi'));
         if ([9.99, 11.99, 12.99].includes(r)) setRoi(r);
       }
+
+      // If opened completely fresh without any params in URL (New Form link)
+      if (!hasAnyParams) {
+        state.tokenNumber = '';
+        state.customerName = '';
+        state.customerDob = '';
+        state.mobile = '';
+        state.pincode = '';
+        state.motherName = '';
+        state.motherDob = '';
+        state.nomineeName = '';
+        state.nomineeRel = 'Wife';
+        state.homeMobile = '';
+        state.refName = '';
+        state.refMobile = '';
+
+        if (elKycName) elKycName.value = '';
+        if (elKycCustomerDob) elKycCustomerDob.value = '';
+        if (elKycMobile) elKycMobile.value = '';
+        if (elKycPin) elKycPin.value = '';
+        if (elKycMotherName) elKycMotherName.value = '';
+        if (elKycMotherDob) elKycMotherDob.value = '';
+        if (elKycNomineeName) elKycNomineeName.value = '';
+        if (elKycNomineeRel) elKycNomineeRel.value = 'Wife';
+        if (elKycHomeMobile) elKycHomeMobile.value = '';
+        if (elKycRefName) elKycRefName.value = '';
+        if (elKycRefMobile) elKycRefMobile.value = '';
+
+        if (elKycModelSelect) elKycModelSelect.value = 'Splendor Self';
+        if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
+        if (elKycCustomModelInput) elKycCustomModelInput.value = '';
+        if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS['Splendor Self'].exShowroom;
+        if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
+        recalcVehiclePricing(true);
+        if (elDownPayment) elDownPayment.value = 20000;
+        if (elFileCharge) elFileCharge.value = 7500;
+        if (elInsuranceCheck) elInsuranceCheck.checked = true;
+        setTenure(24);
+        setRoi(11.99);
+      }
     }
 
-    // Event Listeners
-    if (elCustomerName) elCustomerName.addEventListener('input', () => {
-      if (elKycName) elKycName.value = elCustomerName.value;
-      updateCalculator();
-    });
-    if (elBikeModel) elBikeModel.addEventListener('input', updateCalculator);
-
-    elOnRoadPrice.addEventListener('input', () => {
-      const price = parseFloat(elOnRoadPrice.value) || 0;
-      if (price < parseFloat(elDownPayment.value)) {
-        elDownPayment.value = Math.round(price * 0.2);
+    // Attach real-time input & change listeners to all customer and family inputs
+    const kycInputs = [
+      elKycName, elKycCustomerDob, elKycMobile, elKycPin,
+      elKycMotherName, elKycMotherDob, elKycNomineeName,
+      elKycNomineeRel, elKycHomeMobile, elKycRefName, elKycRefMobile
+    ];
+    kycInputs.forEach(input => {
+      if (input) {
+        input.addEventListener('input', updateCalculator);
+        input.addEventListener('change', updateCalculator);
       }
-      updateCalculator();
     });
 
-    elDownPayment.addEventListener('input', updateCalculator);
+    // Core Loan Input Listeners
+    if (elOnRoadPrice) {
+      elOnRoadPrice.addEventListener('input', () => {
+        const price = parseFloat(elOnRoadPrice.value) || 0;
+        if (price < parseFloat(elDownPayment.value)) {
+          elDownPayment.value = Math.round(price * 0.2);
+        }
+        updateCalculator();
+      });
+    }
+
+    if (elDownPayment) elDownPayment.addEventListener('input', updateCalculator);
     if (elFileCharge) elFileCharge.addEventListener('input', updateCalculator);
-    elInsuranceCheck.addEventListener('change', updateCalculator);
-    elRoiSelect.addEventListener('change', (e) => setRoi(parseFloat(e.target.value)));
-    elTenureSelect.addEventListener('change', (e) => setTenure(parseInt(e.target.value)));
+    if (elInsuranceCheck) elInsuranceCheck.addEventListener('change', updateCalculator);
+    if (elRoiSelect) elRoiSelect.addEventListener('change', (e) => setRoi(parseFloat(e.target.value)));
+    if (elTenureSelect) elTenureSelect.addEventListener('change', (e) => setTenure(parseInt(e.target.value)));
 
     // FC Chips
     document.querySelectorAll('.fc-chip').forEach(btn => {
@@ -1564,14 +1414,21 @@
       btn.addEventListener('click', (e) => setTenure(parseInt(e.currentTarget.getAttribute('data-tenure'))));
     });
 
-    // Reset Defaults
+    // Reset Defaults Button
     document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
       state.tokenNumber = '';
-      if (elCustomerName) elCustomerName.value = '';
-      if (elBikeModel) elBikeModel.value = '';
       state.customerName = '';
       state.customerDob = '';
-      state.bikeModel = '';
+      state.mobile = '';
+      state.pincode = '';
+      state.motherName = '';
+      state.motherDob = '';
+      state.nomineeName = '';
+      state.nomineeRel = 'Wife';
+      state.homeMobile = '';
+      state.refName = '';
+      state.refMobile = '';
+
       if (elKycName) elKycName.value = '';
       if (elKycCustomerDob) elKycCustomerDob.value = '';
       if (elKycMobile) elKycMobile.value = '';
@@ -1583,27 +1440,21 @@
       if (elKycHomeMobile) elKycHomeMobile.value = '';
       if (elKycRefName) elKycRefName.value = '';
       if (elKycRefMobile) elKycRefMobile.value = '';
+
       if (elKycModelSelect) elKycModelSelect.value = 'Splendor Self';
+      if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
+      if (elKycCustomModelInput) elKycCustomModelInput.value = '';
       if (elKycExShowroom) elKycExShowroom.value = 78299;
       if (elKycInsurance) elKycInsurance.value = 5000;
-      updateKycPricingDisplay();
+      recalcVehiclePricing(true);
 
-      state.mobile = '';
-      state.pincode = '';
-      state.motherName = '';
-      state.motherDob = '';
-      state.nomineeName = '';
-      state.nomineeRel = 'Wife';
-      state.homeMobile = '';
-      state.refName = '';
-      state.refMobile = '';
-
-      elOnRoadPrice.value = 96500;
-      elDownPayment.value = 20000;
+      if (elDownPayment) elDownPayment.value = 20000;
       if (elFileCharge) elFileCharge.value = 7500;
-      elInsuranceCheck.checked = true;
+      if (elInsuranceCheck) elInsuranceCheck.checked = true;
       setRoi(11.99);
       setTenure(24);
+      updateCalculator();
+      showToast("Reset all inputs to defaults");
     });
 
     // Copy Quote Button
@@ -1715,35 +1566,32 @@ function doGet(e) {
 
     // Save to Google Sheet & Allot Token
     async function submitCaseToGoogleSheet() {
-      if (elKycName && elCustomerName) elCustomerName.value = elKycName.value.trim();
-      if (elKycCustomerDob) state.customerDob = elKycCustomerDob.value;
+      // Refresh current values from form inputs
+      state.customerName = (elKycName ? elKycName.value : '').trim();
+      state.customerDob = elKycCustomerDob ? elKycCustomerDob.value : '';
+      state.mobile = (elKycMobile ? elKycMobile.value : '').trim();
+      state.pincode = (elKycPin ? elKycPin.value : '').trim();
+      state.motherName = (elKycMotherName ? elKycMotherName.value : '').trim();
+      state.motherDob = elKycMotherDob ? elKycMotherDob.value : '';
+      state.nomineeName = (elKycNomineeName ? elKycNomineeName.value : '').trim();
+      state.nomineeRel = elKycNomineeRel ? elKycNomineeRel.value : 'Wife';
+      state.homeMobile = (elKycHomeMobile ? elKycHomeMobile.value : '').trim();
+      state.refName = (elKycRefName ? elKycRefName.value : '').trim();
+      state.refMobile = (elKycRefMobile ? elKycRefMobile.value : '').trim();
 
-      let chosenModel = elKycModelSelect ? elKycModelSelect.value : '';
-      if (chosenModel === 'Other' && elKycCustomModelInput) {
-        chosenModel = elKycCustomModelInput.value.trim() || 'Other';
-      }
-      if (elBikeModel) elBikeModel.value = chosenModel;
-
-      if (elKycMobile) state.mobile = elKycMobile.value.trim();
-      if (elKycPin) state.pincode = elKycPin.value.trim();
-      if (elKycMotherName) state.motherName = elKycMotherName.value.trim();
-      if (elKycMotherDob) state.motherDob = elKycMotherDob.value;
-      if (elKycNomineeName) state.nomineeName = elKycNomineeName.value.trim();
-      if (elKycNomineeRel) state.nomineeRel = elKycNomineeRel.value;
-      if (elKycHomeMobile) state.homeMobile = elKycHomeMobile.value.trim();
-      if (elKycRefName) state.refName = elKycRefName.value.trim();
-      if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
-
-      const p = recalcCustomPricingSum();
-      if (p && p.totalOnRoad > 0 && elOnRoadPrice) {
-        elOnRoadPrice.value = p.totalOnRoad;
+      const selectedModel = elKycModelSelect ? elKycModelSelect.value : '';
+      if (selectedModel === 'Other') {
+        state.bikeModel = (elKycCustomModelInput && elKycCustomModelInput.value.trim()) || 'Other';
+      } else if (selectedModel) {
+        state.bikeModel = selectedModel;
       }
 
-      // Generate token if not already allotted
+      // Generate sequential token if not already allotted
       if (!state.tokenNumber) {
         state.tokenNumber = getNextTokenNumber();
       }
 
+      // Update calculator and URL params
       updateCalculator();
 
       const res = calculateLoan(
@@ -1786,7 +1634,7 @@ function doGet(e) {
         caseUrl: window.location.href
       };
 
-      const webhookUrl = GOOGLE_SHEETS_WEBHOOK_URL || localStorage.getItem('dealership_sheets_webhook') || '';
+      const webhookUrl = GOOGLE_SHEETS_WEBHOOK_URL;
 
       if (submitToSheetBtn) {
         submitToSheetBtn.disabled = true;
@@ -1812,23 +1660,17 @@ function doGet(e) {
           showToast(`Case saved to Google Sheet! Token #${state.tokenNumber} allotted.`);
         } catch (err) {
           console.error("Sheets webhook error:", err);
-          showToast(`Token #${state.tokenNumber} allotted! (Webhook transmission notice)`);
+          showToast(`Token #${state.tokenNumber} allotted! (Transmission error)`);
         }
-      } else {
-        showToast(`Token #${state.tokenNumber} allotted! (Sheet webhook URL not set)`);
       }
 
       if (submitToSheetBtn) {
         submitToSheetBtn.disabled = false;
         submitToSheetBtn.innerHTML = `
-          <svg class="w-4 h-4 mr-1 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-          </svg>
-          Save to Google Sheet & Allot Token
+          <svg class="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          <span>Save to Sheet & Allot Token</span>
         `;
       }
-
-      closeKycModal();
     }
 
     // Google Sheets & Token Allotment Event Listeners
