@@ -158,22 +158,53 @@
           </div>
         </div>
 
-        <!-- 2. Mother / Family Details -->
+        <!-- 2. Mother Details -->
         <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
           <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
             <span>👩</span>
-            <span>Mother / Family Details</span>
+            <span>Mother Details</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div class="space-y-1">
               <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
-              <input type="text" id="kycMotherName" placeholder="Mother's Name"
+              <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
                 class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
             </div>
             <div class="space-y-1">
-              <label for="kycMotherAge" class="font-semibold text-slate-400 text-[11px]">Mother Age</label>
-              <input type="number" id="kycMotherAge" placeholder="Age in Yrs" min="18" max="100"
+              <label for="kycMotherDob" class="font-semibold text-slate-400 text-[11px]">Mother DOB</label>
+              <input type="date" id="kycMotherDob"
                 class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Nominee & Residence Details -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+            <span>🛡️</span>
+            <span>Nominee & Residence Details</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div class="space-y-1">
+              <label for="kycNomineeName" class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
+              <input type="text" id="kycNomineeName" placeholder="Nominee Full Name"
+                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+            </div>
+            <div class="space-y-1">
+              <label for="kycNomineeRel" class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
+              <div class="relative">
+                <select id="kycNomineeRel" class="block w-full rounded-lg bg-slate-900 border border-slate-700 py-2 pl-3 pr-8 text-white font-medium text-xs focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
+                  <option value="Wife" selected>Wife</option>
+                  <option value="Son">Son</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Father">Father</option>
+                  <option value="Daughter">Daughter</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+              </div>
             </div>
             <div class="space-y-1">
               <label for="kycHomeMobile" class="font-semibold text-slate-400 text-[11px]">Home Mobile Number</label>
@@ -183,7 +214,7 @@
           </div>
         </div>
 
-        <!-- 3. Reference Details -->
+        <!-- 4. Reference Details -->
         <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
           <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
             <span>👥</span>
@@ -203,7 +234,7 @@
           </div>
         </div>
 
-        <!-- 4. Vehicle Model & Pricing Breakdown -->
+        <!-- 5. Vehicle Model & Pricing Breakdown -->
         <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
           <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
             <div class="font-bold text-white flex items-center gap-1.5 text-xs text-amber-400">
@@ -213,14 +244,18 @@
             <span class="text-[10px] text-slate-400">Ex-Showroom × 1.22</span>
           </div>
 
-          <!-- Model Dropdown -->
+          <!-- Model Dropdown (Without Insurance, with New Models) -->
           <div class="space-y-1">
             <label for="kycModelSelect" class="font-semibold text-slate-300 text-[11px]">Select Model</label>
             <div class="relative">
               <select id="kycModelSelect" class="block w-full rounded-xl bg-slate-900 border border-slate-700 py-2.5 pl-3 pr-8 text-white font-semibold text-xs sm:text-sm focus:border-rose-500 focus:outline-none appearance-none cursor-pointer">
-                <option value="Splendor Self" selected>Splendor Self (Ex: ₹78,299 | Ins: ₹5,000)</option>
-                <option value="Splendor BLA">Splendor BLA (Ex: ₹79,381 | Ins: ₹5,000)</option>
-                <option value="HF Deluxe BLK">HF Deluxe BLK (Ex: ₹59,999 | Ins: ₹4,900)</option>
+                <option value="Splendor Self" selected>Splendor Self (Ex: ₹78,299)</option>
+                <option value="Splendor BLA">Splendor BLA (Ex: ₹79,381)</option>
+                <option value="Splendor Xtec">Splendor Xtec (Ex: ₹82,118)</option>
+                <option value="Splendor Xtec 2.0">Splendor Xtec 2.0 (Ex: ₹84,359)</option>
+                <option value="HF Deluxe BLK">HF Deluxe BLK (Ex: ₹59,999)</option>
+                <option value="HF Deluxe Self">HF Deluxe Self (Ex: ₹65,702)</option>
+                <option value="HF Deluxe Pro">HF Deluxe Pro (Ex: ₹70,258)</option>
                 <option value="Other">Other (All fields default to 0)</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
@@ -624,10 +659,6 @@
   <script>
     // Model Presets & Calculations
     const MODEL_PRESETS = {
-      "HF Deluxe BLK": {
-        exShowroom: 59999,
-        insurance: 4900
-      },
       "Splendor Self": {
         exShowroom: 78299,
         insurance: 5000
@@ -635,6 +666,26 @@
       "Splendor BLA": {
         exShowroom: 79381,
         insurance: 5000
+      },
+      "Splendor Xtec": {
+        exShowroom: 82118,
+        insurance: 5200
+      },
+      "Splendor Xtec 2.0": {
+        exShowroom: 84359,
+        insurance: 5200
+      },
+      "HF Deluxe BLK": {
+        exShowroom: 59999,
+        insurance: 4900
+      },
+      "HF Deluxe Self": {
+        exShowroom: 65702,
+        insurance: 4900
+      },
+      "HF Deluxe Pro": {
+        exShowroom: 70258,
+        insurance: 4900
       },
       "Other": {
         exShowroom: 0,
@@ -649,7 +700,9 @@
       mobile: '',
       pincode: '',
       motherName: '',
-      motherAge: '',
+      motherDob: '',
+      nomineeName: '',
+      nomineeRel: 'Wife',
       homeMobile: '',
       refName: '',
       refMobile: '',
@@ -707,7 +760,9 @@
     const elKycMobile = document.getElementById('kycMobile');
     const elKycPin = document.getElementById('kycPin');
     const elKycMotherName = document.getElementById('kycMotherName');
-    const elKycMotherAge = document.getElementById('kycMotherAge');
+    const elKycMotherDob = document.getElementById('kycMotherDob');
+    const elKycNomineeName = document.getElementById('kycNomineeName');
+    const elKycNomineeRel = document.getElementById('kycNomineeRel');
     const elKycHomeMobile = document.getElementById('kycHomeMobile');
     const elKycRefName = document.getElementById('kycRefName');
     const elKycRefMobile = document.getElementById('kycRefMobile');
@@ -1057,6 +1112,14 @@
     // KYC Modal Event Handlers
     const openKycModal = () => {
       if (elKycName && elCustomerName) elKycName.value = elCustomerName.value;
+      if (elKycMotherName) elKycMotherName.value = state.motherName || '';
+      if (elKycMotherDob) elKycMotherDob.value = state.motherDob || '';
+      if (elKycNomineeName) elKycNomineeName.value = state.nomineeName || '';
+      if (elKycNomineeRel) elKycNomineeRel.value = state.nomineeRel || 'Wife';
+      if (elKycHomeMobile) elKycHomeMobile.value = state.homeMobile || '';
+      if (elKycRefName) elKycRefName.value = state.refName || '';
+      if (elKycRefMobile) elKycRefMobile.value = state.refMobile || '';
+
       if (elBikeModel && elBikeModel.value) {
         const m = elBikeModel.value.trim();
         if (MODEL_PRESETS[m] && m !== 'Other') {
@@ -1174,7 +1237,9 @@
         if (elKycMobile) state.mobile = elKycMobile.value.trim();
         if (elKycPin) state.pincode = elKycPin.value.trim();
         if (elKycMotherName) state.motherName = elKycMotherName.value.trim();
-        if (elKycMotherAge) state.motherAge = elKycMotherAge.value.trim();
+        if (elKycMotherDob) state.motherDob = elKycMotherDob.value;
+        if (elKycNomineeName) state.nomineeName = elKycNomineeName.value.trim();
+        if (elKycNomineeRel) state.nomineeRel = elKycNomineeRel.value;
         if (elKycHomeMobile) state.homeMobile = elKycHomeMobile.value.trim();
         if (elKycRefName) state.refName = elKycRefName.value.trim();
         if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
@@ -1202,7 +1267,9 @@
         if (elKycMobile) state.mobile = elKycMobile.value.trim();
         if (elKycPin) state.pincode = elKycPin.value.trim();
         if (elKycMotherName) state.motherName = elKycMotherName.value.trim();
-        if (elKycMotherAge) state.motherAge = elKycMotherAge.value.trim();
+        if (elKycMotherDob) state.motherDob = elKycMotherDob.value;
+        if (elKycNomineeName) state.nomineeName = elKycNomineeName.value.trim();
+        if (elKycNomineeRel) state.nomineeRel = elKycNomineeRel.value;
         if (elKycHomeMobile) state.homeMobile = elKycHomeMobile.value.trim();
         if (elKycRefName) state.refName = elKycRefName.value.trim();
         if (elKycRefMobile) state.refMobile = elKycRefMobile.value.trim();
@@ -1235,7 +1302,10 @@
 📍 *Pin Code:* ${state.pincode || 'N/A'}
 
 👩 *Mother Name:* ${state.motherName || 'N/A'}
-🎂 *Mother Age:* ${state.motherAge ? state.motherAge + ' Yrs' : 'N/A'}
+🎂 *Mother DOB:* ${state.motherDob || 'N/A'}
+
+🛡️ *Nominee Name:* ${state.nomineeName || 'N/A'}
+💍 *Nominee Relation:* ${state.nomineeRel || 'N/A'}
 ☎️ *Home Mobile:* ${state.homeMobile || 'N/A'}
 
 👥 *Reference Name:* ${state.refName || 'N/A'}
@@ -1295,7 +1365,9 @@
       if (state.mobile) params.set('mob', state.mobile);
       if (state.pincode) params.set('pin', state.pincode);
       if (state.motherName) params.set('m_name', state.motherName);
-      if (state.motherAge) params.set('m_age', state.motherAge);
+      if (state.motherDob) params.set('m_dob', state.motherDob);
+      if (state.nomineeName) params.set('nom_name', state.nomineeName);
+      if (state.nomineeRel) params.set('nom_rel', state.nomineeRel);
       if (state.homeMobile) params.set('h_mob', state.homeMobile);
       if (state.refName) params.set('ref_name', state.refName);
       if (state.refMobile) params.set('ref_mob', state.refMobile);
@@ -1339,7 +1411,9 @@
       if (params.has('mob')) { state.mobile = params.get('mob'); if (elKycMobile) elKycMobile.value = state.mobile; }
       if (params.has('pin')) { state.pincode = params.get('pin'); if (elKycPin) elKycPin.value = state.pincode; }
       if (params.has('m_name')) { state.motherName = params.get('m_name'); if (elKycMotherName) elKycMotherName.value = state.motherName; }
-      if (params.has('m_age')) { state.motherAge = params.get('m_age'); if (elKycMotherAge) elKycMotherAge.value = state.motherAge; }
+      if (params.has('m_dob')) { state.motherDob = params.get('m_dob'); if (elKycMotherDob) elKycMotherDob.value = state.motherDob; }
+      if (params.has('nom_name')) { state.nomineeName = params.get('nom_name'); if (elKycNomineeName) elKycNomineeName.value = state.nomineeName; }
+      if (params.has('nom_rel')) { state.nomineeRel = params.get('nom_rel'); if (elKycNomineeRel) elKycNomineeRel.value = state.nomineeRel; }
       if (params.has('h_mob')) { state.homeMobile = params.get('h_mob'); if (elKycHomeMobile) elKycHomeMobile.value = state.homeMobile; }
       if (params.has('ref_name')) { state.refName = params.get('ref_name'); if (elKycRefName) elKycRefName.value = state.refName; }
       if (params.has('ref_mob')) { state.refMobile = params.get('ref_mob'); if (elKycRefMobile) elKycRefMobile.value = state.refMobile; }
@@ -1350,7 +1424,7 @@
         if (elBikeModel) elBikeModel.value = m;
         state.bikeModel = m;
         if (elKycModelSelect) {
-          if (["HF Deluxe BLK", "Splendor Self", "Splendor BLA"].includes(m)) {
+          if (MODEL_PRESETS[m] && m !== 'Other') {
             elKycModelSelect.value = m;
             if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
           } else {
@@ -1432,7 +1506,9 @@
       if (elKycMobile) elKycMobile.value = '';
       if (elKycPin) elKycPin.value = '';
       if (elKycMotherName) elKycMotherName.value = '';
-      if (elKycMotherAge) elKycMotherAge.value = '';
+      if (elKycMotherDob) elKycMotherDob.value = '';
+      if (elKycNomineeName) elKycNomineeName.value = '';
+      if (elKycNomineeRel) elKycNomineeRel.value = 'Wife';
       if (elKycHomeMobile) elKycHomeMobile.value = '';
       if (elKycRefName) elKycRefName.value = '';
       if (elKycRefMobile) elKycRefMobile.value = '';
@@ -1444,7 +1520,9 @@
       state.mobile = '';
       state.pincode = '';
       state.motherName = '';
-      state.motherAge = '';
+      state.motherDob = '';
+      state.nomineeName = '';
+      state.nomineeRel = 'Wife';
       state.homeMobile = '';
       state.refName = '';
       state.refMobile = '';
