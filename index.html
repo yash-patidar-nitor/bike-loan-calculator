@@ -127,6 +127,26 @@
             <button id="resetDefaultsBtn" class="text-xs text-rose-400 hover:text-rose-300 transition">Reset</button>
           </div>
 
+          <!-- Customer & Vehicle Model (Top Inputs) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-2 border-b border-slate-800/80">
+            <div class="space-y-1">
+              <label for="customerName" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                Customer Name
+              </label>
+              <input type="text" id="customerName" placeholder="e.g. Rahul Sharma"
+                class="block w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-white font-medium text-xs sm:text-sm placeholder:text-slate-600 focus:border-rose-500 focus:outline-none transition">
+            </div>
+            <div class="space-y-1">
+              <label for="bikeModel" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Bike Model Name
+              </label>
+              <input type="text" id="bikeModel" placeholder="e.g. Activa 6G / Splendor"
+                class="block w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-white font-medium text-xs sm:text-sm placeholder:text-slate-600 focus:border-rose-500 focus:outline-none transition">
+            </div>
+          </div>
+
           <!-- 1. On-Road Price -->
           <div class="space-y-1.5">
             <div class="flex justify-between items-center text-xs">
@@ -140,40 +160,46 @@
             </div>
           </div>
 
-          <!-- 2. Down Payment (DP) -->
+          <!-- 2. Down Payment (DP) (Percentage options removed) -->
           <div class="space-y-1.5">
             <div class="flex justify-between items-center text-xs">
               <label for="downPayment" class="font-semibold text-slate-300">Down Payment (DP) (₹)</label>
-              <span id="dpPercentLabel" class="text-rose-400 font-medium font-mono">20.7%</span>
             </div>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm pointer-events-none">₹</span>
               <input type="number" id="downPayment" min="0" step="500" value="20000"
                 class="block w-full rounded-xl bg-slate-950 border border-slate-700 pl-8 pr-3 py-2.5 text-white font-semibold text-base focus:border-rose-500 focus:outline-none transition">
             </div>
-            <!-- Quick DP chips -->
-            <div class="grid grid-cols-4 gap-1.5 pt-1">
-              <button type="button" class="dp-chip py-1 text-[11px] font-medium rounded-lg bg-slate-950 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-pct="10">10%</button>
-              <button type="button" class="dp-chip py-1 text-[11px] font-semibold rounded-lg bg-rose-950 text-rose-300 border border-rose-800 transition" data-pct="20">20%</button>
-              <button type="button" class="dp-chip py-1 text-[11px] font-medium rounded-lg bg-slate-950 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-pct="30">30%</button>
-              <button type="button" class="dp-chip py-1 text-[11px] font-medium rounded-lg bg-slate-950 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-pct="40">40%</button>
-            </div>
           </div>
 
-          <!-- 3. Fixed File Charge & General Insurance Addon Box -->
-          <div class="space-y-2.5 p-3 rounded-xl bg-slate-950 border border-slate-800/90 text-xs">
+          <!-- 3. File Charge (FC) & General Insurance Addon Box -->
+          <div class="space-y-3 p-3.5 rounded-xl bg-slate-950 border border-slate-800/90 text-xs">
             
-            <!-- File Charge row -->
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5 text-slate-300 font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                <span>File / Doc Charge:</span>
+            <!-- File Charge (FC) Input (Default 7500, Editable) -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label for="fileCharge" class="flex items-center gap-1.5 font-semibold text-slate-300 cursor-pointer">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>File Charge / Doc Fee (FC) (₹)</span>
+                </label>
+                <span class="text-[11px] text-amber-400 font-medium font-mono">Financed</span>
               </div>
-              <span class="font-bold text-amber-400 font-mono">+₹7,500 <span class="text-[10px] text-slate-400 font-normal">(Financed)</span></span>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm pointer-events-none">₹</span>
+                <input type="number" id="fileCharge" min="0" max="100000" step="500" value="7500"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 pl-8 pr-3 py-2 text-white font-semibold text-sm focus:border-amber-500 focus:outline-none transition">
+              </div>
+              <!-- Quick FC Presets -->
+              <div class="grid grid-cols-4 gap-1.5 pt-0.5">
+                <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="0">₹0</button>
+                <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="5000">₹5K</button>
+                <button type="button" class="fc-chip py-1 text-[11px] font-semibold rounded-lg bg-amber-950 text-amber-300 border border-amber-800 transition" data-fc="7500">₹7.5K (Def)</button>
+                <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="10000">₹10K</button>
+              </div>
             </div>
 
             <!-- General Insurance Checkbox (Default Checked) -->
-            <div class="pt-2 border-t border-slate-800/80">
+            <div class="pt-2.5 border-t border-slate-800/80">
               <label class="flex items-start gap-2.5 cursor-pointer group">
                 <input type="checkbox" id="insuranceCheck" checked class="w-4 h-4 mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-600">
                 <div class="flex-1">
@@ -246,6 +272,23 @@
       <!-- RIGHT: Clean Output Dashboard (7 Cols on MD) -->
       <section class="md:col-span-7 space-y-4">
         
+        <!-- Dynamic Customer & Vehicle Header Banner -->
+        <div id="quoteCustomerBanner" class="hidden rounded-2xl bg-gradient-to-r from-rose-950/70 via-slate-900 to-slate-900 border border-rose-800/60 p-3.5 sm:px-4 flex items-center justify-between text-xs shadow-lg transition">
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-lg bg-rose-600/20 border border-rose-500/30 text-rose-300 flex items-center justify-center font-bold text-xs">
+              👤
+            </span>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Customer Quotation</span>
+              <span id="bannerCustomerName" class="font-bold text-white text-sm"></span>
+            </div>
+          </div>
+          <div id="bannerBikeModelContainer" class="hidden items-center gap-1.5 bg-slate-950/90 px-3 py-1.5 rounded-xl border border-slate-800">
+            <span class="text-[11px] text-slate-400">Model:</span>
+            <span class="text-xs font-bold text-rose-300" id="bannerBikeModel"></span>
+          </div>
+        </div>
+
         <!-- Two Primary Result Hero Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           
@@ -366,6 +409,8 @@
   <script>
     // State
     const state = {
+      customerName: '',
+      bikeModel: '',
       onRoadPrice: 96500,
       fileCharge: 7500,
       insuranceAddon: true,
@@ -377,14 +422,20 @@
     };
 
     // DOM Elements
+    const elCustomerName = document.getElementById('customerName');
+    const elBikeModel = document.getElementById('bikeModel');
     const elOnRoadPrice = document.getElementById('onRoadPrice');
     const elPriceInWords = document.getElementById('priceInWords');
     const elDownPayment = document.getElementById('downPayment');
-    const elDpPercentLabel = document.getElementById('dpPercentLabel');
+    const elFileCharge = document.getElementById('fileCharge');
     const elInsuranceCheck = document.getElementById('insuranceCheck');
     const elRoiSelect = document.getElementById('roiSelect');
     const elTenureSelect = document.getElementById('tenureSelect');
     const elTenureInYearsLabel = document.getElementById('tenureInYearsLabel');
+    const quoteCustomerBanner = document.getElementById('quoteCustomerBanner');
+    const bannerCustomerName = document.getElementById('bannerCustomerName');
+    const bannerBikeModelContainer = document.getElementById('bannerBikeModelContainer');
+    const bannerBikeModel = document.getElementById('bannerBikeModel');
 
     // Outputs
     const elDispEmi = document.getElementById('dispEmi');
@@ -460,23 +511,60 @@
 
     // Main Update View Function
     function updateCalculator() {
+      const customer = (elCustomerName ? elCustomerName.value : '').trim();
+      const model = (elBikeModel ? elBikeModel.value : '').trim();
       const onRoad = Math.max(0, parseFloat(elOnRoadPrice.value) || 0);
       const dp = Math.max(0, parseFloat(elDownPayment.value) || 0);
+      const fileCharge = Math.max(0, parseFloat(elFileCharge ? elFileCharge.value : 7500) || 0);
       const hasInsurance = elInsuranceCheck.checked;
       const roi = parseFloat(elRoiSelect.value) || 11.99;
       const tenure = parseInt(elTenureSelect.value) || 24;
 
       // Update state
+      state.customerName = customer;
+      state.bikeModel = model;
       state.onRoadPrice = onRoad;
       state.downPayment = dp;
+      state.fileCharge = fileCharge;
       state.insuranceAddon = hasInsurance;
       state.roi = roi;
       state.tenureMonths = tenure;
 
+      // Update Customer Banner
+      if (quoteCustomerBanner) {
+        if (customer || model) {
+          quoteCustomerBanner.classList.remove('hidden');
+          if (customer) {
+            bannerCustomerName.textContent = customer;
+            bannerCustomerName.parentElement.style.display = 'block';
+          } else {
+            bannerCustomerName.parentElement.style.display = 'none';
+          }
+          if (model) {
+            bannerBikeModelContainer.classList.remove('hidden');
+            bannerBikeModelContainer.classList.add('flex');
+            bannerBikeModel.textContent = model;
+          } else {
+            bannerBikeModelContainer.classList.add('hidden');
+            bannerBikeModelContainer.classList.remove('flex');
+          }
+        } else {
+          quoteCustomerBanner.classList.add('hidden');
+        }
+      }
+
+      // Highlight active FC preset chip
+      document.querySelectorAll('.fc-chip').forEach(btn => {
+        const val = parseFloat(btn.getAttribute('data-fc'));
+        if (val === fileCharge) {
+          btn.className = 'fc-chip py-1 text-[11px] font-semibold rounded-lg bg-amber-950 text-amber-300 border border-amber-800 transition';
+        } else {
+          btn.className = 'fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition';
+        }
+      });
+
       // UI Labels
       elPriceInWords.textContent = formatLakhs(onRoad);
-      const dpPct = onRoad > 0 ? ((dp / onRoad) * 100).toFixed(1) : '0';
-      elDpPercentLabel.textContent = `${dpPct}%`;
       elTenureInYearsLabel.textContent = `${(tenure / 12).toFixed(1)} Yrs`;
       elBadgeTenure.textContent = `${tenure} Months`;
       elDispRateScheme.textContent = `${roi}% Flat p.a.`;
@@ -510,7 +598,7 @@
       elRowRepayment.textContent = formatINR(res.totalRepayment);
       elRowNetLanding.textContent = formatINR(res.netLanding);
 
-      // Render 4-Tenure Comparison Cards
+      // Render 5-Tenure Comparison Cards
       renderTenureCards(onRoad, dp, state.fileCharge, hasInsurance, roi, tenure);
 
       // Update URL parameters in browser history
@@ -629,10 +717,15 @@
         state.tenureMonths
       );
 
+      let headerLines = [];
+      if (state.customerName) headerLines.push(`👤 *Customer:* ${state.customerName}`);
+      if (state.bikeModel) headerLines.push(`🏍️ *Bike Model:* ${state.bikeModel}`);
+      const customerSection = headerLines.length > 0 ? headerLines.join('\n') + '\n--------------------------------\n' : '';
+
       return `🏍️ *BIKE LOAN & EMI QUOTATION*
 --------------------------------
-• *On-Road Price:* ${formatINR(state.onRoadPrice)}
-• *File Charge:* ₹7,500
+${customerSection}• *On-Road Price:* ${formatINR(state.onRoadPrice)}
+• *File Charge (FC):* ${formatINR(state.fileCharge)}
 • *General Insurance:* ${state.insuranceAddon ? '₹1,000 (Added)' : 'Not Added (₹0)'}
 • *Down Payment (DP):* ${formatINR(state.downPayment)}
 • *Financed Loan Principal:* ${formatINR(res.principal)}
@@ -644,17 +737,20 @@
 • *Total Interest Paid:* ${formatINR(res.totalInterest)}
 • *Total Loan Repaid:* ${formatINR(res.totalRepayment)}
 --------------------------------
-🔗 Calculate or modify here: ${window.location.href}`;
+🔗 Calculate or view quotation: ${window.location.href}`;
     }
 
-    // URL Parameters for Easy Sharing
+    // URL Parameters for Easy Sharing (includes customer details)
     function updateUrlParams() {
       const params = new URLSearchParams();
+      if (state.customerName) params.set('customer', state.customerName);
+      if (state.bikeModel) params.set('model', state.bikeModel);
       params.set('price', state.onRoadPrice);
       params.set('dp', state.downPayment);
+      params.set('fc', state.fileCharge);
       params.set('ins', state.insuranceAddon ? '1' : '0');
-      params.set('roi', state.roi);
       params.set('tenure', state.tenureMonths);
+      params.set('roi', state.roi);
       
       const newUrl = `${window.location.pathname}?${params.toString()}`;
       window.history.replaceState({}, '', newUrl);
@@ -665,8 +761,14 @@
 
     function loadFromUrlParams() {
       const params = new URLSearchParams(window.location.search);
+      if (params.has('customer')) elCustomerName.value = params.get('customer');
+      else if (params.has('cust')) elCustomerName.value = params.get('cust');
+      else if (params.has('name')) elCustomerName.value = params.get('name');
+
+      if (params.has('model')) elBikeModel.value = params.get('model');
       if (params.has('price')) elOnRoadPrice.value = params.get('price');
       if (params.has('dp')) elDownPayment.value = params.get('dp');
+      if (params.has('fc')) elFileCharge.value = params.get('fc');
       if (params.has('ins')) elInsuranceCheck.checked = params.get('ins') === '1';
       if (params.has('tenure')) {
         const t = parseInt(params.get('tenure'));
@@ -679,6 +781,9 @@
     }
 
     // Event Listeners
+    if (elCustomerName) elCustomerName.addEventListener('input', updateCalculator);
+    if (elBikeModel) elBikeModel.addEventListener('input', updateCalculator);
+
     elOnRoadPrice.addEventListener('input', () => {
       const price = parseFloat(elOnRoadPrice.value) || 0;
       if (price < parseFloat(elDownPayment.value)) {
@@ -688,22 +793,16 @@
     });
 
     elDownPayment.addEventListener('input', updateCalculator);
+    if (elFileCharge) elFileCharge.addEventListener('input', updateCalculator);
     elInsuranceCheck.addEventListener('change', updateCalculator);
     elRoiSelect.addEventListener('change', (e) => setRoi(parseFloat(e.target.value)));
     elTenureSelect.addEventListener('change', (e) => setTenure(parseInt(e.target.value)));
 
-    // DP Chips
-    document.querySelectorAll('.dp-chip').forEach(btn => {
+    // FC Chips
+    document.querySelectorAll('.fc-chip').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const pct = parseFloat(e.currentTarget.getAttribute('data-pct'));
-        const price = parseFloat(elOnRoadPrice.value) || 0;
-        elDownPayment.value = Math.round(price * (pct / 100));
-
-        document.querySelectorAll('.dp-chip').forEach(c => {
-          c.className = 'dp-chip py-1 text-[11px] font-medium rounded-lg bg-slate-950 text-slate-300 border border-slate-800 hover:bg-slate-800 transition';
-        });
-        e.currentTarget.className = 'dp-chip py-1 text-[11px] font-semibold rounded-lg bg-rose-950 text-rose-300 border border-rose-800 transition';
-        
+        const val = parseFloat(e.currentTarget.getAttribute('data-fc'));
+        if (elFileCharge) elFileCharge.value = val;
         updateCalculator();
       });
     });
@@ -720,8 +819,11 @@
 
     // Reset Defaults
     document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
+      if (elCustomerName) elCustomerName.value = '';
+      if (elBikeModel) elBikeModel.value = '';
       elOnRoadPrice.value = 96500;
       elDownPayment.value = 20000;
+      if (elFileCharge) elFileCharge.value = 7500;
       elInsuranceCheck.checked = true;
       setRoi(11.99);
       setTenure(24);
