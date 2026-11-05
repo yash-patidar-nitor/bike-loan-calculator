@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dry Mockup - Bike Loan Print Slip & Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    /* Date input styling for high contrast on screen */
+    input[type="date"] {
+      color-scheme: dark;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+      opacity: 0.9;
+    }
+
+    /* Print Specific Styles - Strictly 1-Page Monochrome Black & White */
+    @media print {
+      html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 15px !important;
+      }
+      .no-print, .interactive-controls, header, nav, #mockupBanner, .screen-view {
+        display: none !important;
+      }
+      .print-slip-container {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 270mm !important;
+        height: 270mm !important;
+        margin: 0 !important;
+        padding: 6mm 4mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        box-sizing: border-box !important;
+        page-break-inside: avoid !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 sm:p-6 antialiased">
+
+  <!-- Interactive Mockup Mode Switcher Bar -->
+  <div id="mockupBanner" class="max-w-4xl mx-auto mb-6 bg-slate-900 border-2 border-slate-700 rounded-2xl p-4 shadow-2xl flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl">🖨️</span>
+      <div>
+        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>UPDATED DRY MOCKUP (INTERNAL SCHEME)</span>
+          <span class="text-[10px] bg-slate-800 border border-slate-600 px-2 py-0.5 rounded text-white uppercase font-bold">EXS • RTO • INS • OC • ORP</span>
+        </h2>
+        <p class="text-xs text-slate-300 mt-0.5">
+          Internal naming schema applied, vehicle pricing heading removed, model name enlarged, gap tightened, strictly sequential tokens.
+        </p>
+      </div>
+    </div>
+
+    <!-- Toggle Buttons -->
+    <div class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+      <button id="viewScreenBtn" onclick="showScreenView()" class="px-3 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">
+        🖥️ Screen View
+      </button>
+      <button id="viewPrintBtn" onclick="showPrintView()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-white text-black shadow">
+        📄 Print Slip (Full A4 B&W)
+      </button>
+      <button onclick="window.print()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-rose-600 hover:bg-rose-500 text-white flex items-center gap-1.5 shadow">
+        🖨️ Test Print (Ctrl+P)
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 1. SCREEN VIEW (Showing Updated Features)   -->
+  <!-- ========================================== -->
+  <div id="screenViewContainer" class="screen-view hidden max-w-4xl mx-auto space-y-6">
+
+    <!-- Header with Token & DOB Highlight -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-600 flex items-center justify-center font-black text-white text-xl">
+          ₹
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold text-white">Bike Loan Calculator</h1>
+            <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">
+              🎫 TK-1002
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">All application & vehicle details are directly visible & editable</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-xl text-xs transition">
+          ➕ New Form
+        </button>
+        <button onclick="showPrintView()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition border border-slate-700 flex items-center gap-1.5">
+          <span>🖨️ Print Quotation Slip</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PROMINENT CUSTOMER BANNER (WITH CLEAR DOB & EMI RANGE) -->
+    <div class="rounded-2xl bg-gradient-to-r from-rose-950/90 via-slate-900 to-slate-900 border-2 border-rose-600/50 p-4 shadow-xl">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-300 flex items-center justify-center font-bold text-lg">
+            👤
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-extrabold text-white text-base">Rahul Kumar Sharma</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">TK-1002</span>
+              <!-- HIGHLIGHTED CUSTOMER DOB IN BANNER -->
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-rose-500/20 text-rose-200 border border-rose-500/40 flex items-center gap-1">
+                🎂 <strong>DOB:</strong> <span class="text-white font-bold">15-Aug-1995 (29y)</span>
+              </span>
+            </div>
+            <div class="text-xs text-slate-400 mt-1 flex items-center gap-3 flex-wrap">
+              <span>📱 9876543210</span>
+              <span>📍 Pin: 452001</span>
+              <span>🛵 Model: <strong class="text-rose-300">Splendor Plus Self</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <span class="text-[11px] text-slate-400 block font-semibold">Monthly EMI (Range)</span>
+          <!-- EMI RANGE DISPLAY: EMI to EMI + 50 -->
+          <span class="text-2xl font-black text-white text-rose-300 font-mono">₹3,842 - ₹3,892</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application Form Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+      
+      <!-- LEFT: Form Details (Customer, Mother, Nominee with NOMINEE DOB) -->
+      <div class="space-y-3.5">
+        
+        <!-- 1. Customer Details with HIGH CONTRAST DOB -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+          <div class="font-bold text-white flex items-center justify-between text-xs text-rose-300">
+            <span class="flex items-center gap-1.5"><span>👤</span> <span>1. Customer Details</span></span>
+            <span class="text-[10px] text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800/50">Mandatory KYC</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-300 text-[11px]">Customer Name</label>
+              <input type="text" value="Rahul Kumar Sharma" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-semibold text-xs">
+            </div>
+
+            <!-- Enhanced Customer DOB Input -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="font-bold text-rose-300 text-[11px]">🎂 Customer DOB *</label>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                  15-Aug-1995 (29y)
+                </span>
+              </div>
+              <input type="date" value="1995-08-15"
+                class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/80 px-3 py-2 text-white font-bold text-sm tracking-wide">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-300 text-[11px]">Mobile Number</label>
+              <input type="tel" value="9876543210" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-300 text-[11px]">Pin Code</label>
+              <input type="text" value="452001" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Mother Details (Mother DOB REMOVED, only Mother Name) -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+            <span>👩</span>
+            <span>2. Mother Details</span>
+          </div>
+          <div class="space-y-1">
+            <label class="font-semibold text-slate-300 text-[11px]">Mother Name</label>
+            <input type="text" value="Anita Sharma" placeholder="Mother's Full Name" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs">
+          </div>
+        </div>
+
+        <!-- 3. Nominee & Reference Details (NOW INCLUDES NOMINEE DOB!) -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+          <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
+            <span>🛡️</span>
+            <span>3. Nominee &amp; Reference</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
+              <input type="text" value="Pooja Sharma" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-white text-xs">
+            </div>
+
+            <!-- ADDED NOMINEE DOB -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="font-bold text-rose-300 text-[11px]">🎂 Nominee DOB</label>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                  12-Nov-1996 (28y)
+                </span>
+              </div>
+              <input type="date" value="1996-11-12"
+                class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/70 px-2.5 py-1.5 text-white font-bold text-xs tracking-wide">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
+              <select class="block w-full rounded-lg bg-slate-900 border border-slate-700 py-1.5 px-2 text-white text-xs">
+                <option selected>Wife</option>
+                <option>Son</option>
+                <option>Mother</option>
+                <option>Father</option>
+              </select>
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-400 text-[11px]">Home Mobile</label>
+              <input type="tel" value="9826012345" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-white text-xs">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-400 text-[11px]">Reference Name</label>
+              <input type="text" value="Vikas Patel" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-white text-xs">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-semibold text-slate-400 text-[11px]">Reference Mobile</label>
+              <input type="tel" value="9893012345" class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-2.5 py-1.5 text-white text-xs">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Vehicle Pricing & Loan Inputs (FC default 8000 & Insurance 2000) -->
+      <div class="space-y-3.5">
+        
+        <!-- Loan Inputs -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3.5">
+          <div class="font-bold text-white text-xs text-rose-300">Loan Parameters</div>
+          
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-slate-300 font-medium">Down Payment (DP)</span>
+                <span class="font-bold text-white">₹20,000</span>
+              </div>
+              <input type="range" min="5000" max="80000" step="1000" value="20000" class="w-full accent-rose-500">
+            </div>
+
+            <!-- FILE CHARGE (FC): DEFAULT 8000 WITH 7500 OPTION -->
+            <div class="space-y-1 bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center">
+                <label class="font-semibold text-slate-300 text-[11px]">File Charge (FC)</label>
+                <span class="text-[10px] text-amber-400 font-mono font-bold">Default: ₹8,000</span>
+              </div>
+              <input type="number" value="8000" class="w-full rounded-lg bg-slate-950 border border-slate-700 p-1.5 text-white font-bold text-xs">
+              <div class="grid grid-cols-4 gap-1 pt-1">
+                <button class="py-1 text-[11px] rounded bg-slate-950 border border-slate-800 text-slate-400">₹0</button>
+                <button class="py-1 text-[11px] rounded bg-slate-950 border border-slate-800 text-slate-200 font-semibold hover:border-slate-600">₹7.5K</button>
+                <button class="py-1 text-[11px] rounded bg-amber-950 border border-amber-700 text-amber-300 font-bold">₹8K (Def)</button>
+                <button class="py-1 text-[11px] rounded bg-slate-950 border border-slate-800 text-slate-400">₹10K</button>
+              </div>
+            </div>
+
+            <!-- GENERAL INSURANCE: UPDATED TO ₹2,000 -->
+            <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-white text-xs block">General Insurance</span>
+                <span class="text-[10px] text-slate-400">Adds ₹2,000 to financed amount before EMI</span>
+              </div>
+              <span class="font-extrabold text-indigo-400 font-mono text-sm">+₹2,000</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Result Cards with EMI RANGE -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- EMI RANGE HERO CARD -->
+          <div class="bg-gradient-to-br from-rose-900/80 to-slate-900 border border-rose-700/60 p-4 rounded-xl">
+            <span class="text-[10px] text-rose-200 uppercase font-semibold">Monthly EMI (Range)</span>
+            <div class="text-2xl font-black text-white mt-1 font-mono tracking-tight">₹3,842 - ₹3,892</div>
+            <div class="text-[10px] text-rose-200/80 mt-1">~ ₹128 - ₹130 / day</div>
+          </div>
+
+          <div class="bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-700/40 p-4 rounded-xl">
+            <span class="text-[10px] text-amber-300 uppercase font-semibold">Net Landing Cost</span>
+            <div class="text-2xl font-black text-white mt-1">₹1,12,212</div>
+            <div class="text-[10px] text-amber-200/80 mt-1">Over on-road price</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================================================== -->
+  <!-- 2. REVISED DEDICATED 1-PAGE BLACK & WHITE PRINT QUOTATION SLIP                             -->
+  <!-- OBFUSCATED NAMING SCHEMA: EXS, RTO, INS, OC, ORP (For Internal Dealership Use)             -->
+  <!-- NO "Vehicle Pricing Details" heading, Model Name is BIGGER, tightened gap before Loan summary-->
+  <!-- ========================================================================================== -->
+  <div id="printSlipContainer" class="print-slip-container max-w-3xl mx-auto bg-white text-black p-8 sm:p-10 rounded-2xl shadow-2xl border-2 border-black flex flex-col justify-between">
+    
+    <!-- Top Meta Row: Token Number & Date (Strictly Sequential: TK-1001, TK-1002, TK-1003...) -->
+    <div class="border-b-2 border-black pb-3 mb-5 flex items-center justify-between">
+      <div>
+        <span class="text-xs uppercase tracking-widest font-extrabold text-black block">INTERNAL DEALERSHIP SLIP</span>
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-black font-mono">TOKEN #: TK-1002</span>
+      </div>
+      <div class="text-right">
+        <span class="text-xs uppercase tracking-wider font-bold text-black block">DATE</span>
+        <span class="text-sm sm:text-base font-bold font-mono text-black">05-Nov-2026</span>
+      </div>
+    </div>
+
+    <!-- 1. CUSTOMER & APPLICANT DETAILS (Full Width, Larger Fonts, Black & White) -->
+    <div class="mb-5 flex-1">
+      <div class="border-2 border-black bg-white px-4 py-2 font-black text-sm sm:text-base uppercase tracking-wider text-black mb-2.5">
+        1. CUSTOMER &amp; APPLICANT DETAILS
+      </div>
+
+      <table class="w-full text-sm sm:text-base border-2 border-black border-collapse">
+        <tbody>
+          <tr class="border-b-2 border-black">
+            <td class="p-3 sm:p-3.5 font-bold text-black w-1/4 border-r-2 border-black bg-white">Customer Name</td>
+            <td class="p-3 sm:p-3.5 font-black text-black text-base sm:text-lg w-1/4 border-r-2 border-black">Rahul Kumar Sharma</td>
+            <!-- CLEAR BOLD CUSTOMER DOB -->
+            <td class="p-3 sm:p-3.5 font-bold text-black w-1/4 border-r-2 border-black bg-white">Customer DOB</td>
+            <td class="p-3 sm:p-3.5 font-black text-black text-base sm:text-lg w-1/4">15-Aug-1995 (29 Years)</td>
+          </tr>
+          <tr class="border-b-2 border-black">
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Mobile Number</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black font-mono">9876543210</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Pin Code</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black font-mono">452001</td>
+          </tr>
+          <!-- MOTHER NAME ONLY (MOTHER DOB REMOVED) -->
+          <tr class="border-b-2 border-black">
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Mother Name</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black">Anita Sharma</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Home Mobile</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black font-mono">9826012345</td>
+          </tr>
+          <!-- NOMINEE DETAILS (WITH NOMINEE DOB ADDED) -->
+          <tr class="border-b-2 border-black">
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Nominee Name &amp; Rel</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black">Pooja Sharma (Wife)</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Nominee DOB</td>
+            <td class="p-3 sm:p-3.5 font-bold text-black">12-Nov-1996 (28 Years)</td>
+          </tr>
+          <tr>
+            <td class="p-3 sm:p-3.5 font-bold text-black border-r-2 border-black bg-white">Reference Person</td>
+            <td colspan="3" class="p-3 sm:p-3.5 font-bold text-black">Vikas Patel &nbsp;•&nbsp; Mobile: 9893012345</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VEHICLE DETAILS: NO HEADING, MODEL NAME IS BIGGER, INTERNAL CODES: EXS, RTO, INS, OC, ORP -->
+    <div class="mb-4">
+      <div class="flex items-baseline justify-between mb-2 pb-1 border-b-2 border-black">
+        <span class="text-xs uppercase tracking-widest font-black text-black">VEHICLE MODEL</span>
+        <!-- LARGER MODEL NAME -->
+        <span class="text-xl sm:text-2xl font-black font-mono tracking-tight text-black">SPLENDOR PLUS SELF</span>
+      </div>
+
+      <div class="grid grid-cols-5 gap-3 text-center">
+        <!-- EXS (Ex-Showroom) -->
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">EXS</span>
+          <span class="font-extrabold text-black text-base sm:text-lg">₹76,356</span>
+        </div>
+        <!-- RTO -->
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">RTO</span>
+          <span class="font-extrabold text-black text-base sm:text-lg">₹9,163</span>
+        </div>
+        <!-- INS (Insurance) -->
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">INS</span>
+          <span class="font-extrabold text-black text-base sm:text-lg">₹5,400</span>
+        </div>
+        <!-- OC (Other Charges) -->
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">OC</span>
+          <span class="font-extrabold text-black text-base sm:text-lg">₹2,238</span>
+        </div>
+        <!-- ORP (On-Road Price) -->
+        <div class="border-4 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">ORP</span>
+          <span class="font-black text-black text-lg sm:text-xl">₹93,157</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. LOAN & EMI SUMMARY (TIGHTLY CONNECTED TO VEHICLE DETAILS) -->
+    <div class="mb-2">
+      <div class="border-2 border-black bg-white px-4 py-2 font-black text-sm sm:text-base uppercase tracking-wider text-black mb-2">
+        2. LOAN &amp; EMI SUMMARY
+      </div>
+
+      <table class="w-full text-base sm:text-lg border-2 border-black border-collapse text-center">
+        <thead>
+          <tr class="border-b-2 border-black bg-white">
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">ORP</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">DP</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">Tenure</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">Rate</th>
+            <th class="p-3 text-xs font-black uppercase text-black">Monthly EMI (Range)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black">₹93,157</td>
+            <td class="p-4 sm:p-5 font-black text-black border-r-2 border-black text-lg sm:text-xl">₹20,000</td>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black">24 Months</td>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black">11.99% Flat</td>
+            <!-- FINAL EMI RANGE: EMI to EMI + 50 -->
+            <td class="p-4 sm:p-5 font-black text-black text-xl sm:text-2xl border-2 border-black">₹3,842 - ₹3,892</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Screen-only helper buttons -->
+    <div class="pt-6 border-t border-slate-300 flex justify-between items-center no-print">
+      <button onclick="showScreenView()" class="text-xs font-bold text-slate-700 hover:text-black underline">
+        ← Back to Screen View
+      </button>
+      <button onclick="window.print()" class="px-5 py-2.5 bg-black hover:bg-slate-800 text-white font-bold text-sm rounded-xl flex items-center gap-2 shadow">
+        <span>🖨️ Print Slip (Ctrl+P)</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    function showScreenView() {
+      document.getElementById('screenViewContainer').classList.remove('hidden');
+      document.getElementById('printSlipContainer').classList.add('hidden');
+      document.getElementById('viewScreenBtn').className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-white text-black shadow";
+      document.getElementById('viewPrintBtn').className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+    }
+
+    function showPrintView() {
+      document.getElementById('screenViewContainer').classList.add('hidden');
+      document.getElementById('printSlipContainer').classList.remove('hidden');
+      document.getElementById('viewPrintBtn').className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-white text-black shadow";
+      document.getElementById('viewScreenBtn').className = "px-3 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+    }
+  </script>
+</body>
+</html>

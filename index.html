@@ -22,9 +22,47 @@
     }
   </script>
   <style>
+    /* Date input styling for high contrast on dark screens */
+    input[type="date"] {
+      color-scheme: dark;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+      opacity: 0.9;
+    }
+
+    /* Print Specific Styles - Strictly 1-Page Monochrome Black & White */
     @media print {
-      body { background: white !important; color: black !important; }
-      .no-print { display: none !important; }
+      html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 15px !important;
+      }
+      header, footer, main, #toast, #shareModal, .no-print {
+        display: none !important;
+      }
+      #printQuotationSlip {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 270mm !important;
+        height: 270mm !important;
+        margin: 0 !important;
+        padding: 6mm 4mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        box-sizing: border-box !important;
+        page-break-inside: avoid !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
     }
   </style>
 </head>
@@ -48,6 +86,9 @@
         <button id="shareWhatsappBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition active:scale-95 shadow-sm">
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.771.821 2.791.821 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.767-5.767-5.767zm7.398 5.766c.001 4.112-3.35 7.459-7.469 7.459-1.282 0-2.482-.324-3.541-.89l-4.419 1.159 1.181-4.306c-.66-1.124-1.02-2.417-1.02-3.762 0-4.112 3.351-7.46 7.47-7.46 4.118 0 7.469 3.348 7.469 7.46zm-3.08 3.52c-.157-.079-.933-.46-1.077-.512-.145-.053-.25-.079-.356.079-.105.158-.407.512-.499.617-.092.105-.184.119-.341.04-.158-.079-.668-.246-1.272-.785-.47-.419-.787-.938-.879-1.096-.092-.158-.01-.243.069-.322.072-.071.158-.184.237-.276.079-.092.105-.158.158-.263.053-.105.026-.197-.013-.276-.04-.079-.355-.855-.487-1.171-.128-.308-.258-.266-.355-.271l-.303-.005c-.105 0-.276.04-.421.197-.145.158-.553.54-.553 1.317s.566 1.527.645 1.633c.079.105 1.114 1.701 2.699 2.385.377.163.672.26.902.333.379.12.723.103.996.063.304-.045.933-.381 1.065-.749.131-.368.131-.684.092-.749-.039-.066-.144-.105-.302-.184z"/></svg>
           <span class="hidden sm:inline">WhatsApp</span>
+        </button>
+        <button id="topPrintQuoteBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition active:scale-95" title="Print 1-Page Customer Quotation">
+          <span>🖨️ Print Quote</span>
         </button>
         <button id="copySummaryBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition active:scale-95">
           <span>Copy Quote</span>
@@ -142,6 +183,9 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
             <span>Save to Sheet &amp; Allot Token</span>
           </button>
+          <button type="button" id="actionPrintSlipBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-xs transition border border-slate-700 active:scale-95 flex items-center gap-1.5" title="Print 1-Page Customer Quotation">
+            <span>🖨️ Print Slip</span>
+          </button>
           <button type="button" id="copyKycLeadBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-xs transition border border-slate-700 active:scale-95 flex items-center gap-1">
             <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
             <span>Copy Full Lead</span>
@@ -169,12 +213,17 @@
               <div class="space-y-1">
                 <label for="kycName" class="font-semibold text-slate-400 text-[11px]">Customer Name</label>
                 <input type="text" id="kycName" placeholder="Full Name"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-semibold text-xs focus:border-rose-500 focus:outline-none transition">
               </div>
               <div class="space-y-1">
-                <label for="kycCustomerDob" class="font-semibold text-slate-400 text-[11px]">Customer DOB</label>
-                <input type="date" id="kycCustomerDob"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+                <div class="flex items-center justify-between">
+                  <label for="kycCustomerDob" class="font-bold text-rose-300 text-[11px] flex items-center gap-1">
+                    <span>🎂 Customer DOB</span>
+                  </label>
+                  <span id="kycCustomerDobBadge" class="hidden text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
+                </div>
+                <input type="date" id="kycCustomerDob" style="color-scheme: dark;"
+                  class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/70 px-3 py-2 text-white font-bold text-xs tracking-wide focus:border-rose-400 focus:outline-none transition shadow-sm shadow-rose-950">
               </div>
               <div class="space-y-1">
                 <label for="kycMobile" class="font-semibold text-slate-400 text-[11px]">Mobile Number</label>
@@ -189,37 +238,40 @@
             </div>
           </div>
 
-          <!-- 2. Mother Details -->
+          <!-- 2. Mother Details (Mother Name Only) -->
           <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
             <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
               <span>👩</span>
               <span>2. Mother Details</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="space-y-1">
-                <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
-                <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-              </div>
-              <div class="space-y-1">
-                <label for="kycMotherDob" class="font-semibold text-slate-400 text-[11px]">Mother DOB</label>
-                <input type="date" id="kycMotherDob"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-              </div>
+            <div class="space-y-1">
+              <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
+              <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
+                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
             </div>
           </div>
 
-          <!-- 3. Nominee & Reference Details -->
+          <!-- 3. Nominee & Reference Details (With Nominee DOB) -->
           <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
             <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
               <span>🛡️</span>
               <span>3. Nominee &amp; Reference</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div class="space-y-1">
                 <label for="kycNomineeName" class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
                 <input type="text" id="kycNomineeName" placeholder="Nominee Full Name"
                   class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label for="kycNomineeDob" class="font-bold text-rose-300 text-[11px] flex items-center gap-1">
+                    <span>🎂 Nominee DOB</span>
+                  </label>
+                  <span id="kycNomineeDobBadge" class="hidden text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
+                </div>
+                <input type="date" id="kycNomineeDob" style="color-scheme: dark;"
+                  class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/70 px-3 py-2 text-white font-bold text-xs tracking-wide focus:border-rose-400 focus:outline-none transition">
               </div>
               <div class="space-y-1">
                 <label for="kycNomineeRel" class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
@@ -237,12 +289,12 @@
                 <input type="tel" id="kycHomeMobile" placeholder="Residence Contact" maxlength="10"
                   class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
               </div>
-              <div class="space-y-1 sm:col-span-1.5">
+              <div class="space-y-1">
                 <label for="kycRefName" class="font-semibold text-slate-400 text-[11px]">Reference Name</label>
                 <input type="text" id="kycRefName" placeholder="Reference Person"
                   class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
               </div>
-              <div class="space-y-1 sm:col-span-1.5">
+              <div class="space-y-1">
                 <label for="kycRefMobile" class="font-semibold text-slate-400 text-[11px]">Reference Mobile</label>
                 <input type="tel" id="kycRefMobile" placeholder="Ref Contact" maxlength="10"
                   class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
@@ -369,7 +421,7 @@
           <!-- 3. File Charge (FC) & General Insurance Addon Box -->
           <div class="space-y-3 p-3.5 rounded-xl bg-slate-950 border border-slate-800/90 text-xs">
             
-            <!-- File Charge (FC) Input (Default 7500, Editable) -->
+            <!-- File Charge (FC) Input (Default 8000, Editable) -->
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <label for="fileCharge" class="flex items-center gap-1.5 font-semibold text-slate-300 cursor-pointer">
@@ -380,28 +432,28 @@
               </div>
               <div class="relative">
                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm pointer-events-none">₹</span>
-                <input type="number" id="fileCharge" min="0" max="100000" step="500" value="7500"
+                <input type="number" id="fileCharge" min="0" max="100000" step="500" value="8000"
                   class="block w-full rounded-xl bg-slate-900 border border-slate-700 pl-8 pr-3 py-2 text-white font-semibold text-sm focus:border-amber-500 focus:outline-none transition">
               </div>
               <!-- Quick FC Presets -->
               <div class="grid grid-cols-4 gap-1.5 pt-0.5">
                 <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="0">₹0</button>
-                <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="5000">₹5K</button>
-                <button type="button" class="fc-chip py-1 text-[11px] font-semibold rounded-lg bg-amber-950 text-amber-300 border border-amber-800 transition" data-fc="7500">₹7.5K (Def)</button>
+                <button type="button" class="fc-chip py-1 text-[11px] font-semibold rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="7500">₹7.5K</button>
+                <button type="button" class="fc-chip py-1 text-[11px] font-semibold rounded-lg bg-amber-950 text-amber-300 border border-amber-800 transition" data-fc="8000">₹8K (Def)</button>
                 <button type="button" class="fc-chip py-1 text-[11px] font-medium rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition" data-fc="10000">₹10K</button>
               </div>
             </div>
 
-            <!-- General Insurance Checkbox (Default Checked) -->
+            <!-- General Insurance Checkbox (Default Checked: ₹2,000) -->
             <div class="pt-2.5 border-t border-slate-800/80">
               <label class="flex items-start gap-2.5 cursor-pointer group">
                 <input type="checkbox" id="insuranceCheck" checked class="w-4 h-4 mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-600">
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <span class="font-semibold text-slate-200 group-hover:text-white transition">General Insurance</span>
-                    <span class="font-bold text-indigo-400 font-mono">+₹1,000</span>
+                    <span class="font-bold text-indigo-400 font-mono">+₹2,000</span>
                   </div>
-                  <p class="text-[11px] text-slate-400 mt-0.5">Adds ₹1,000 to financed amount before EMI</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Adds ₹2,000 to financed amount before EMI</p>
                 </div>
               </label>
             </div>
@@ -473,8 +525,11 @@
               👤
             </span>
             <div>
-              <span class="text-slate-400 text-[11px] block">Customer Quotation</span>
-              <span id="bannerCustomerName" class="font-bold text-white text-sm"></span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span id="bannerCustomerName" class="font-bold text-white text-sm"></span>
+                <span id="bannerCustomerDobBadge" class="hidden text-[11px] font-semibold px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-200 border border-rose-500/40"></span>
+              </div>
+              <span class="text-slate-400 text-[11px] block" id="bannerCustomerSub">Customer Quotation</span>
             </div>
           </div>
           <div class="flex items-center gap-2">
@@ -492,11 +547,11 @@
           <!-- Monthly EMI Card -->
           <div class="rounded-2xl bg-gradient-to-br from-rose-900/90 to-slate-900 border border-rose-700/60 p-5 shadow-xl flex flex-col justify-between">
             <div class="flex items-center justify-between text-xs font-semibold text-rose-200 uppercase tracking-wider">
-              <span>Monthly EMI</span>
+              <span>Monthly EMI (Range)</span>
               <span id="badgeTenure" class="bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full border border-rose-500/30 font-medium normal-case">24 Months</span>
             </div>
             <div class="my-3">
-              <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight" id="dispEmi">₹0</div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono" id="dispEmi">₹0</div>
               <div class="text-[11px] text-rose-200/80 mt-1" id="dispEmiPerDay">~ ₹0 / day</div>
             </div>
             <div class="text-[11px] text-slate-400 border-t border-rose-800/40 pt-2 flex justify-between">
@@ -591,6 +646,117 @@
 
   </main>
 
+  <!-- DEDICATED 1-PAGE BLACK & WHITE PRINT QUOTATION SLIP -->
+  <div id="printQuotationSlip" class="hidden">
+    <!-- Top Meta Row: Customer Quotation Slip, Token #, Date -->
+    <div class="border-b-2 border-black pb-3 mb-6 flex items-center justify-between">
+      <div>
+        <span class="text-xs uppercase tracking-widest font-extrabold text-black block">CUSTOMER QUOTATION SLIP</span>
+        <span class="text-2xl font-black tracking-tight text-black font-mono" id="printToken">TOKEN #: TK-1002</span>
+      </div>
+      <div class="text-right">
+        <span class="text-xs uppercase tracking-wider font-bold text-black block">DATE</span>
+        <span class="text-base font-bold font-mono text-black" id="printDate"></span>
+      </div>
+    </div>
+
+    <!-- 1. Customer & Applicant Details -->
+    <div class="mb-6 flex-1">
+      <div class="border-2 border-black bg-white px-4 py-2 font-black text-base uppercase tracking-wider text-black mb-3">
+        1. CUSTOMER &amp; APPLICANT DETAILS
+      </div>
+      <table class="w-full text-base border-2 border-black border-collapse">
+        <tbody>
+          <tr class="border-b-2 border-black">
+            <td class="p-3.5 font-bold text-black w-1/4 border-r-2 border-black bg-white">Customer Name</td>
+            <td class="p-3.5 font-black text-black text-lg w-1/4 border-r-2 border-black" id="printCustName"></td>
+            <td class="p-3.5 font-bold text-black w-1/4 border-r-2 border-black bg-white">Customer DOB</td>
+            <td class="p-3.5 font-black text-black text-lg w-1/4" id="printCustDob"></td>
+          </tr>
+          <tr class="border-b-2 border-black">
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Mobile Number</td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black font-mono" id="printMobile"></td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Pin Code</td>
+            <td class="p-3.5 font-bold text-black font-mono" id="printPin"></td>
+          </tr>
+          <tr class="border-b-2 border-black">
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Mother Name</td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black" id="printMotherName"></td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Home Mobile</td>
+            <td class="p-3.5 font-bold text-black font-mono" id="printHomeMobile"></td>
+          </tr>
+          <tr class="border-b-2 border-black">
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Nominee Name &amp; Rel</td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black" id="printNomineeNameRel"></td>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Nominee DOB</td>
+            <td class="p-3.5 font-bold text-black" id="printNomineeDob"></td>
+          </tr>
+          <tr>
+            <td class="p-3.5 font-bold text-black border-r-2 border-black bg-white">Reference Person</td>
+            <td colspan="3" class="p-3.5 font-bold text-black" id="printReference"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VEHICLE DETAILS (Model name bigger, EXS, RTO, INS, OC, ORP labels, No heading, tightly spaced) -->
+    <div class="mb-4">
+      <div class="flex items-baseline justify-between mb-2 pb-1 border-b-2 border-black">
+        <span class="text-xs uppercase tracking-widest font-black text-black">VEHICLE MODEL</span>
+        <span class="text-xl sm:text-2xl font-black font-mono tracking-tight text-black" id="printModelName"></span>
+      </div>
+      <div class="grid grid-cols-5 gap-3 text-center">
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">EXS</span>
+          <span class="font-extrabold text-black text-base sm:text-lg" id="printExShowroom"></span>
+        </div>
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">RTO</span>
+          <span class="font-extrabold text-black text-base sm:text-lg" id="printRto"></span>
+        </div>
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">INS</span>
+          <span class="font-extrabold text-black text-base sm:text-lg" id="printInsurance"></span>
+        </div>
+        <div class="border-2 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">OC</span>
+          <span class="font-extrabold text-black text-base sm:text-lg" id="printOtherCharges"></span>
+        </div>
+        <div class="border-4 border-black p-3 bg-white">
+          <span class="text-xs uppercase font-black text-black block mb-0.5">ORP</span>
+          <span class="font-black text-black text-lg sm:text-xl" id="printOnRoad"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. LOAN & EMI SUMMARY (Tightly connected to vehicle pricing) -->
+    <div class="mb-2">
+      <div class="border-2 border-black bg-white px-4 py-2 font-black text-sm sm:text-base uppercase tracking-wider text-black mb-2">
+        2. LOAN &amp; EMI SUMMARY
+      </div>
+      <table class="w-full text-base sm:text-lg border-2 border-black border-collapse text-center">
+        <thead>
+          <tr class="border-b-2 border-black bg-white">
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">ORP</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">DP</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">Tenure</th>
+            <th class="p-3 border-r-2 border-black text-xs font-black uppercase text-black">Rate</th>
+            <th class="p-3 text-xs font-black uppercase text-black">Monthly EMI (Range)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black" id="printLoanOnRoad"></td>
+            <td class="p-4 sm:p-5 font-black text-black border-r-2 border-black text-lg sm:text-xl" id="printLoanDp"></td>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black" id="printLoanTenure"></td>
+            <td class="p-4 sm:p-5 font-bold text-black border-r-2 border-black" id="printLoanRoi"></td>
+            <td class="p-4 sm:p-5 font-black text-black text-xl sm:text-2xl border-2 border-black" id="printLoanEmi"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Clean Footer -->
   <footer class="border-t border-slate-900 py-4 text-center text-xs text-slate-500">
     <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -649,8 +815,8 @@
       mobile: '',
       pincode: '',
       motherName: '',
-      motherDob: '',
       nomineeName: '',
+      nomineeDob: '',
       nomineeRel: 'Wife',
       homeMobile: '',
       refName: '',
@@ -665,9 +831,9 @@
 
       // Core Loan Inputs
       onRoadPrice: 96500,
-      fileCharge: 7500,
+      fileCharge: 8000,
       insuranceAddon: true,
-      insuranceCost: 1000,
+      insuranceCost: 2000,
       downPayment: 20000,
       roi: 11.99,
       tenureMonths: 24,
@@ -685,8 +851,8 @@
     const elKycMobile = document.getElementById('kycMobile');
     const elKycPin = document.getElementById('kycPin');
     const elKycMotherName = document.getElementById('kycMotherName');
-    const elKycMotherDob = document.getElementById('kycMotherDob');
     const elKycNomineeName = document.getElementById('kycNomineeName');
+    const elKycNomineeDob = document.getElementById('kycNomineeDob');
     const elKycNomineeRel = document.getElementById('kycNomineeRel');
     const elKycHomeMobile = document.getElementById('kycHomeMobile');
     const elKycRefName = document.getElementById('kycRefName');
@@ -746,6 +912,28 @@
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMsg');
 
+    // Format Date with Age: 15-Aug-1995 (29y)
+    function formatDobWithAge(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const yr = parseInt(parts[0], 10);
+      const mo = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const d = new Date(yr, mo, day);
+      if (isNaN(d.getTime())) return dateStr;
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const formattedDay = String(day).padStart(2, '0');
+      const formattedMon = months[mo] || '';
+      const today = new Date();
+      let age = today.getFullYear() - yr;
+      const mDiff = today.getMonth() - mo;
+      if (mDiff < 0 || (mDiff === 0 && today.getDate() < day)) {
+        age--;
+      }
+      return `${formattedDay}-${formattedMon}-${yr}${age >= 0 ? ` (${age}y)` : ''}`;
+    }
+
     // Number Formatters
     function formatINR(val) {
       if (isNaN(val)) return '₹0';
@@ -761,7 +949,7 @@
 
     // Core Flat Calculation Engine
     function calculateLoan(onRoad, dp, fileCharge, hasInsurance, roi, tenure) {
-      const insuranceVal = hasInsurance ? 1000 : 0;
+      const insuranceVal = hasInsurance ? 2000 : 0;
       
       // Principal = (OnRoad + FileCharge + Insurance) - DownPayment
       const grossFinancedCost = onRoad + fileCharge + insuranceVal;
@@ -799,8 +987,8 @@
       state.mobile = (elKycMobile ? elKycMobile.value : '').trim();
       state.pincode = (elKycPin ? elKycPin.value : '').trim();
       state.motherName = (elKycMotherName ? elKycMotherName.value : '').trim();
-      state.motherDob = elKycMotherDob ? elKycMotherDob.value : '';
       state.nomineeName = (elKycNomineeName ? elKycNomineeName.value : '').trim();
+      state.nomineeDob = elKycNomineeDob ? elKycNomineeDob.value : '';
       state.nomineeRel = elKycNomineeRel ? elKycNomineeRel.value : 'Wife';
       state.homeMobile = (elKycHomeMobile ? elKycHomeMobile.value : '').trim();
       state.refName = (elKycRefName ? elKycRefName.value : '').trim();
@@ -815,7 +1003,7 @@
 
       const onRoad = Math.max(0, parseFloat(elOnRoadPrice.value) || 0);
       const dp = Math.max(0, parseFloat(elDownPayment.value) || 0);
-      const fileCharge = Math.max(0, parseFloat(elFileCharge ? elFileCharge.value : 7500) || 0);
+      const fileCharge = Math.max(0, parseFloat(elFileCharge ? elFileCharge.value : 8000) || 0);
       const hasInsurance = elInsuranceCheck.checked;
       const roi = parseFloat(elRoiSelect.value) || 11.99;
       const tenure = parseInt(elTenureSelect.value) || 24;
@@ -854,6 +1042,30 @@
           } else {
             bannerCustomerName.parentElement.style.display = 'none';
           }
+          const bannerCustomerDobBadge = document.getElementById('bannerCustomerDobBadge');
+          if (state.customerDob && bannerCustomerDobBadge) {
+            bannerCustomerDobBadge.textContent = `🎂 DOB: ${formatDobWithAge(state.customerDob)}`;
+            bannerCustomerDobBadge.classList.remove('hidden');
+          } else if (bannerCustomerDobBadge) {
+            bannerCustomerDobBadge.classList.add('hidden');
+          }
+
+          // Live form date badges
+          const kycCustomerDobBadge = document.getElementById('kycCustomerDobBadge');
+          if (state.customerDob && kycCustomerDobBadge) {
+            kycCustomerDobBadge.textContent = formatDobWithAge(state.customerDob);
+            kycCustomerDobBadge.classList.remove('hidden');
+          } else if (kycCustomerDobBadge) {
+            kycCustomerDobBadge.classList.add('hidden');
+          }
+
+          const kycNomineeDobBadge = document.getElementById('kycNomineeDobBadge');
+          if (state.nomineeDob && kycNomineeDobBadge) {
+            kycNomineeDobBadge.textContent = formatDobWithAge(state.nomineeDob);
+            kycNomineeDobBadge.classList.remove('hidden');
+          } else if (kycNomineeDobBadge) {
+            kycNomineeDobBadge.classList.add('hidden');
+          }
           if (state.bikeModel) {
             bannerBikeModelContainer.classList.remove('hidden');
             bannerBikeModelContainer.classList.add('flex');
@@ -887,9 +1099,11 @@
       // Perform primary calculation
       const res = calculateLoan(onRoad, dp, state.fileCharge, hasInsurance, roi, tenure);
 
-      // Display Hero Cards
-      elDispEmi.textContent = formatINR(res.monthlyEmi);
-      elDispEmiPerDay.textContent = `~ ${formatINR(res.monthlyEmi / 30)} / day`;
+      // Display Hero Cards with EMI Range (EMI to EMI + 50)
+      const emiMin = res.monthlyEmi;
+      const emiMax = res.monthlyEmi + 50;
+      elDispEmi.textContent = `${formatINR(emiMin)} - ${formatINR(emiMax)}`;
+      elDispEmiPerDay.textContent = `~ ${formatINR(emiMin / 30)} - ${formatINR(emiMax / 30)} / day`;
       elDispNetLanding.textContent = formatINR(res.netLanding);
       elDispExtraCost.textContent = `+${formatINR(res.extraCost)} over on-road`;
 
@@ -898,7 +1112,7 @@
       elRowFileCharge.textContent = `+${formatINR(state.fileCharge)}`;
       
       if (hasInsurance) {
-        elRowInsurance.textContent = `+₹1,000 (Included)`;
+        elRowInsurance.textContent = `+₹2,000 (Included)`;
         elRowInsurance.className = 'font-semibold text-indigo-400 font-mono';
       } else {
         elRowInsurance.textContent = `Not Added (₹0)`;
@@ -948,8 +1162,8 @@
           <div class="text-[10px] ${isActive ? 'text-rose-400 font-semibold' : 'text-slate-500'}">
             @ ${cardRoi}% Flat
           </div>
-          <div class="text-sm font-extrabold text-white font-mono mt-0.5">
-            ${formatINR(item.monthlyEmi)}
+          <div class="text-xs font-black text-white font-mono mt-0.5 tracking-tight">
+            ${formatINR(item.monthlyEmi)} - ${formatINR(item.monthlyEmi + 50)}
           </div>
           <div class="text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-800/80">
             Net: <span class="font-semibold text-slate-200">${formatINR(item.netLanding)}</span>
@@ -1033,11 +1247,10 @@
     }
 
     // Live Vehicle Pricing & On-Road Calculation
-    function recalcVehiclePricing(syncToLoan = true) {
+    function recalcVehiclePricing(syncToLoan = true, recomputeFormulas = false) {
       const selectedModel = elKycModelSelect ? elKycModelSelect.value : 'Splendor Self';
 
-      if (selectedModel === 'Other') {
-        if (elKycCustomModelRow) elKycCustomModelRow.classList.remove('hidden');
+      if (selectedModel === 'Other' || !recomputeFormulas) {
         const ex = Math.max(0, parseFloat(elKycExShowroom ? elKycExShowroom.value : 0) || 0);
         const rto = Math.max(0, parseFloat(elKycRto ? elKycRto.value : 0) || 0);
         const ins = Math.max(0, parseFloat(elKycInsurance ? elKycInsurance.value : 0) || 0);
@@ -1048,7 +1261,9 @@
         state.rto = rto;
         state.insuranceAmount = ins;
         state.otherCharges = oth;
-        state.bikeModel = (elKycCustomModelInput && elKycCustomModelInput.value.trim()) || 'Other';
+        state.bikeModel = selectedModel === 'Other' 
+          ? ((elKycCustomModelInput && elKycCustomModelInput.value.trim()) || 'Other')
+          : selectedModel;
 
         if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = formatINR(total);
         if (syncToLoan && total > 0 && elOnRoadPrice) {
@@ -1091,14 +1306,14 @@
           if (elKycInsurance) elKycInsurance.value = 0;
           if (elKycOtherCharges) elKycOtherCharges.value = 0;
           if (elKycTotalOnRoad) elKycTotalOnRoad.textContent = '₹0';
-          recalcVehiclePricing(true);
+          recalcVehiclePricing(true, false);
         } else {
           if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
           if (MODEL_PRESETS[val]) {
             if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS[val].exShowroom;
             if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS[val].insurance;
           }
-          recalcVehiclePricing(true);
+          recalcVehiclePricing(true, true);
         }
       });
     }
@@ -1113,8 +1328,7 @@
     // Input listeners for vehicle pricing fields (Ex-Showroom, RTO, Insurance, Other Charges)
     if (elKycExShowroom) {
       elKycExShowroom.addEventListener('input', () => {
-        const val = elKycModelSelect ? elKycModelSelect.value : '';
-        recalcVehiclePricing(true);
+        recalcVehiclePricing(true, true);
       });
     }
     if (elKycRto) {
@@ -1155,9 +1369,9 @@
 📍 *Pin Code:* ${state.pincode || 'N/A'}
 
 👩 *Mother Name:* ${state.motherName || 'N/A'}
-🎂 *Mother DOB:* ${state.motherDob || 'N/A'}
 
 🛡️ *Nominee Name:* ${state.nomineeName || 'N/A'}
+🎂 *Nominee DOB:* ${state.nomineeDob || 'N/A'}
 💍 *Nominee Relation:* ${state.nomineeRel || 'N/A'}
 ☎️ *Home Mobile:* ${state.homeMobile || 'N/A'}
 
@@ -1173,8 +1387,8 @@
 --------------------------------
 💵 *Down Payment (DP):* ${formatINR(state.downPayment)}
 📑 *File Charge (FC):* ${formatINR(state.fileCharge)}
-🛡️ *General Insurance:* ${state.insuranceAddon ? '₹1,000 (Included)' : 'Not Added'}
-⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} / mo (${state.tenureMonths} Mo @ ${state.roi}% Flat)
+🛡️ *General Insurance:* ${state.insuranceAddon ? '₹2,000 (Included)' : 'Not Added'}
+⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} - ${formatINR(res.monthlyEmi + 50)} / mo (${state.tenureMonths} Mo @ ${state.roi}% Flat)
 ⭐ *Net Landing Cost:* ${formatINR(res.netLanding)}
 --------------------------------
 🔗 View / Edit Application: ${window.location.href}`;
@@ -1203,7 +1417,7 @@
       lines.push(`• *Down Payment (DP):* ${formatINR(state.downPayment)}`);
       lines.push(`• *Tenure:* ${state.tenureMonths} Months (${state.roi}% Flat)`);
       lines.push(`--------------------------------`);
-      lines.push(`⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} / month`);
+      lines.push(`⭐ *Monthly EMI:* ${formatINR(res.monthlyEmi)} - ${formatINR(res.monthlyEmi + 50)} / month`);
       lines.push(`⭐ *Net Landing Cost:* ${formatINR(res.netLanding)}`);
       lines.push(`--------------------------------`);
       lines.push(`🔗 View details: ${window.location.href}`);
@@ -1223,7 +1437,7 @@
       if (state.mobile) params.set('mob', state.mobile);
       if (state.pincode) params.set('pin', state.pincode);
       if (state.motherName) params.set('m_name', state.motherName);
-      if (state.motherDob) params.set('m_dob', state.motherDob);
+      if (state.nomineeDob) params.set('nom_dob', state.nomineeDob);
       if (state.nomineeName) params.set('nom_name', state.nomineeName);
       if (state.nomineeRel) params.set('nom_rel', state.nomineeRel);
       if (state.homeMobile) params.set('h_mob', state.homeMobile);
@@ -1259,6 +1473,7 @@
       // Token Number
       if (params.has('token')) {
         state.tokenNumber = params.get('token');
+        trackTokenSequence(state.tokenNumber);
       }
 
       // Customer Name
@@ -1276,7 +1491,7 @@
       if (params.has('mob')) { state.mobile = params.get('mob'); if (elKycMobile) elKycMobile.value = state.mobile; }
       if (params.has('pin')) { state.pincode = params.get('pin'); if (elKycPin) elKycPin.value = state.pincode; }
       if (params.has('m_name')) { state.motherName = params.get('m_name'); if (elKycMotherName) elKycMotherName.value = state.motherName; }
-      if (params.has('m_dob')) { state.motherDob = params.get('m_dob'); if (elKycMotherDob) elKycMotherDob.value = state.motherDob; }
+      if (params.has('nom_dob')) { state.nomineeDob = params.get('nom_dob'); if (elKycNomineeDob) elKycNomineeDob.value = state.nomineeDob; }
       if (params.has('nom_name')) { state.nomineeName = params.get('nom_name'); if (elKycNomineeName) elKycNomineeName.value = state.nomineeName; }
       if (params.has('nom_rel')) { state.nomineeRel = params.get('nom_rel'); if (elKycNomineeRel) elKycNomineeRel.value = state.nomineeRel; }
       if (params.has('h_mob')) { state.homeMobile = params.get('h_mob'); if (elKycHomeMobile) elKycHomeMobile.value = state.homeMobile; }
@@ -1332,8 +1547,8 @@
         state.mobile = '';
         state.pincode = '';
         state.motherName = '';
-        state.motherDob = '';
         state.nomineeName = '';
+        state.nomineeDob = '';
         state.nomineeRel = 'Wife';
         state.homeMobile = '';
         state.refName = '';
@@ -1358,7 +1573,7 @@
         if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
         recalcVehiclePricing(true);
         if (elDownPayment) elDownPayment.value = 20000;
-        if (elFileCharge) elFileCharge.value = 7500;
+        if (elFileCharge) elFileCharge.value = 8000;
         if (elInsuranceCheck) elInsuranceCheck.checked = true;
         setTenure(24);
         setRoi(11.99);
@@ -1422,8 +1637,8 @@
       state.mobile = '';
       state.pincode = '';
       state.motherName = '';
-      state.motherDob = '';
       state.nomineeName = '';
+      state.nomineeDob = '';
       state.nomineeRel = 'Wife';
       state.homeMobile = '';
       state.refName = '';
@@ -1434,8 +1649,8 @@
       if (elKycMobile) elKycMobile.value = '';
       if (elKycPin) elKycPin.value = '';
       if (elKycMotherName) elKycMotherName.value = '';
-      if (elKycMotherDob) elKycMotherDob.value = '';
       if (elKycNomineeName) elKycNomineeName.value = '';
+      if (elKycNomineeDob) elKycNomineeDob.value = '';
       if (elKycNomineeRel) elKycNomineeRel.value = 'Wife';
       if (elKycHomeMobile) elKycHomeMobile.value = '';
       if (elKycRefName) elKycRefName.value = '';
@@ -1526,13 +1741,13 @@
     var row = [
       tokenNo, timestamp, status, assignedTo,
       data.customerName || "", data.customerDob || "", data.mobile || "", data.pincode || "",
-      data.motherName || "", data.motherDob || "",
-      data.nomineeName || "", data.nomineeRel || "", data.homeMobile || "",
+      data.motherName || "",
+      data.nomineeName || "", data.nomineeDob || "", data.nomineeRel || "", data.homeMobile || "",
       data.refName || "", data.refMobile || "",
       data.bikeModel || "",
       data.exShowroom || 0, data.rto || 0, data.insuranceAmount || 0, data.otherCharges || 0, data.onRoadPrice || 0,
       data.downPayment || 0, data.fileCharge || 0,
-      data.generalInsurance ? "Yes (₹1,000)" : "No",
+      data.generalInsurance ? "Yes (₹2,000)" : "No",
       data.tenureMonths || 0, data.roi || 0,
       data.monthlyEmi || 0, data.netLanding || 0,
       linkFormula
@@ -1555,7 +1770,19 @@ function doGet(e) {
     // Dedicated Google Sheets Webhook URL (Hardcoded backend endpoint)
     const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyqm-M6_Gr6COtcXe6nzAT5CENQUEnDUFo3x3IdJccGl9yG0USFmGEUWwgXbxbKMrCPzA/exec";
 
-    // Allot sequential token number (e.g. TK-1001, TK-1002, ...)
+    // Keep local sequential token counter in sync with highest token seen
+    function trackTokenSequence(tokenStr) {
+      if (!tokenStr) return;
+      const num = parseInt(tokenStr.replace(/\D/g, ''), 10);
+      if (!isNaN(num) && num >= 1000) {
+        let cur = parseInt(localStorage.getItem('dealership_case_seq') || '1000', 10);
+        if (isNaN(cur) || num > cur) {
+          localStorage.setItem('dealership_case_seq', num.toString());
+        }
+      }
+    }
+
+    // Allot strictly sequential token number (e.g. TK-1001, TK-1002, ...)
     function getNextTokenNumber() {
       let cur = parseInt(localStorage.getItem('dealership_case_seq') || '1000', 10);
       if (isNaN(cur) || cur < 1000) cur = 1000;
@@ -1572,7 +1799,7 @@ function doGet(e) {
       state.mobile = (elKycMobile ? elKycMobile.value : '').trim();
       state.pincode = (elKycPin ? elKycPin.value : '').trim();
       state.motherName = (elKycMotherName ? elKycMotherName.value : '').trim();
-      state.motherDob = elKycMotherDob ? elKycMotherDob.value : '';
+      state.nomineeDob = elKycNomineeDob ? elKycNomineeDob.value : '';
       state.nomineeName = (elKycNomineeName ? elKycNomineeName.value : '').trim();
       state.nomineeRel = elKycNomineeRel ? elKycNomineeRel.value : 'Wife';
       state.homeMobile = (elKycHomeMobile ? elKycHomeMobile.value : '').trim();
@@ -1612,7 +1839,7 @@ function doGet(e) {
         mobile: state.mobile,
         pincode: state.pincode,
         motherName: state.motherName,
-        motherDob: state.motherDob,
+        nomineeDob: state.nomineeDob,
         nomineeName: state.nomineeName,
         nomineeRel: state.nomineeRel,
         homeMobile: state.homeMobile,
@@ -1678,8 +1905,82 @@ function doGet(e) {
       submitToSheetBtn.addEventListener('click', submitCaseToGoogleSheet);
     }
 
+    // Populate 1-Page Monochrome Print Slip
+    function populatePrintSlip() {
+      const elPrintToken = document.getElementById('printToken');
+      const elPrintDate = document.getElementById('printDate');
+      const elPrintCustName = document.getElementById('printCustName');
+      const elPrintCustDob = document.getElementById('printCustDob');
+      const elPrintMobile = document.getElementById('printMobile');
+      const elPrintPin = document.getElementById('printPin');
+      const elPrintMotherName = document.getElementById('printMotherName');
+      const elPrintHomeMobile = document.getElementById('printHomeMobile');
+      const elPrintNomineeNameRel = document.getElementById('printNomineeNameRel');
+      const elPrintNomineeDob = document.getElementById('printNomineeDob');
+      const elPrintReference = document.getElementById('printReference');
+
+      const elPrintModelName = document.getElementById('printModelName');
+      const elPrintExShowroom = document.getElementById('printExShowroom');
+      const elPrintRto = document.getElementById('printRto');
+      const elPrintInsurance = document.getElementById('printInsurance');
+      const elPrintOtherCharges = document.getElementById('printOtherCharges');
+      const elPrintOnRoad = document.getElementById('printOnRoad');
+
+      const elPrintLoanOnRoad = document.getElementById('printLoanOnRoad');
+      const elPrintLoanDp = document.getElementById('printLoanDp');
+      const elPrintLoanTenure = document.getElementById('printLoanTenure');
+      const elPrintLoanRoi = document.getElementById('printLoanRoi');
+      const elPrintLoanEmi = document.getElementById('printLoanEmi');
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      if (elPrintToken) elPrintToken.textContent = state.tokenNumber ? `TOKEN #: ${state.tokenNumber}` : 'TOKEN #: UNASSIGNED';
+      if (elPrintDate) elPrintDate.textContent = dateStr;
+
+      if (elPrintCustName) elPrintCustName.textContent = state.customerName || '-';
+      if (elPrintCustDob) elPrintCustDob.textContent = state.customerDob ? formatDobWithAge(state.customerDob) : '-';
+      if (elPrintMobile) elPrintMobile.textContent = state.mobile || '-';
+      if (elPrintPin) elPrintPin.textContent = state.pincode || '-';
+      if (elPrintMotherName) elPrintMotherName.textContent = state.motherName || '-';
+      if (elPrintHomeMobile) elPrintHomeMobile.textContent = state.homeMobile || '-';
+      if (elPrintNomineeNameRel) elPrintNomineeNameRel.textContent = state.nomineeName ? `${state.nomineeName} (${state.nomineeRel || 'Nominee'})` : '-';
+      if (elPrintNomineeDob) elPrintNomineeDob.textContent = state.nomineeDob ? formatDobWithAge(state.nomineeDob) : '-';
+      if (elPrintReference) {
+        elPrintReference.textContent = state.refName ? `${state.refName}${state.refMobile ? ` • ${state.refMobile}` : ''}` : '-';
+      }
+
+      if (elPrintModelName) elPrintModelName.textContent = (state.bikeModel || 'Standard').toUpperCase();
+      if (elPrintExShowroom) elPrintExShowroom.textContent = formatINR(state.exShowroom);
+      if (elPrintRto) elPrintRto.textContent = formatINR(state.rto);
+      if (elPrintInsurance) elPrintInsurance.textContent = formatINR(state.insuranceAmount);
+      if (elPrintOtherCharges) elPrintOtherCharges.textContent = formatINR(state.otherCharges);
+      if (elPrintOnRoad) elPrintOnRoad.textContent = formatINR(state.onRoadPrice);
+
+      const res = calculateLoan(state.onRoadPrice, state.downPayment, state.fileCharge, state.insuranceAddon, state.roi, state.tenureMonths);
+      if (elPrintLoanOnRoad) elPrintLoanOnRoad.textContent = formatINR(state.onRoadPrice);
+      if (elPrintLoanDp) elPrintLoanDp.textContent = formatINR(state.downPayment);
+      if (elPrintLoanTenure) elPrintLoanTenure.textContent = `${state.tenureMonths} Months`;
+      if (elPrintLoanRoi) elPrintLoanRoi.textContent = `${state.roi}% Flat`;
+      if (elPrintLoanEmi) elPrintLoanEmi.textContent = `${formatINR(res.monthlyEmi)} - ${formatINR(res.monthlyEmi + 50)}`;
+    }
+
+    // Trigger Print with Data Population
+    function triggerPrintSlip() {
+      populatePrintSlip();
+      window.print();
+    }
+
+    window.onbeforeprint = populatePrintSlip;
+
     // Print Buttons
-    document.getElementById('footerPrintBtn').addEventListener('click', () => window.print());
+    const topPrintQuoteBtn = document.getElementById('topPrintQuoteBtn');
+    if (topPrintQuoteBtn) topPrintQuoteBtn.addEventListener('click', triggerPrintSlip);
+
+    const actionPrintSlipBtn = document.getElementById('actionPrintSlipBtn');
+    if (actionPrintSlipBtn) actionPrintSlipBtn.addEventListener('click', triggerPrintSlip);
+
+    document.getElementById('footerPrintBtn').addEventListener('click', triggerPrintSlip);
 
     // Init
     window.onload = function() {

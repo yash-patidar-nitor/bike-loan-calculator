@@ -41,8 +41,8 @@ function doPost(e) {
         "Mobile Number",
         "Pin Code",
         "Mother Name",
-        "Mother DOB",
         "Nominee Name",
+        "Nominee DOB",
         "Nominee Relation",
         "Home Mobile",
         "Reference Name",
@@ -67,9 +67,13 @@ function doPost(e) {
       sheet.setFrozenRows(1);
     }
 
-    // Calculate Token Number: TK-1001, TK-1002, etc. based on row index
+    // Calculate strictly sequential Token Number based on Sheet row
+    // Row 1 = Headers
+    // Row 2 = TK-1001
+    // Row 3 = TK-1002
+    // Row N = TK-(1000 + N - 1)
     var nextRow = sheet.getLastRow() + 1;
-    var tokenNo = data.token || ("TK-" + (1000 + nextRow - 1));
+    var tokenNo = "TK-" + (1000 + (nextRow - 1));
 
     var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss");
     var status = data.status || "New Case";
@@ -89,8 +93,8 @@ function doPost(e) {
       data.mobile || "",
       data.pincode || "",
       data.motherName || "",
-      data.motherDob || "",
       data.nomineeName || "",
+      data.nomineeDob || "",
       data.nomineeRel || "",
       data.homeMobile || "",
       data.refName || "",
@@ -103,7 +107,7 @@ function doPost(e) {
       data.onRoadPrice || 0,
       data.downPayment || 0,
       data.fileCharge || 0,
-      data.generalInsurance ? "Yes (₹1,000)" : "No",
+      data.generalInsurance ? "Yes (₹2,000)" : "No",
       data.tenureMonths || 0,
       data.roi || 0,
       data.monthlyEmi || 0,
@@ -128,6 +132,23 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput("Hero Fincorp Google Apps Script Webhook is Active! Use POST to submit cases.")
-    .setMimeType(ContentService.MimeType.TEXT);
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var lastRow = sheet.getLastRow();
+    var nextRow = lastRow + 1;
+    var nextToken = "TK-" + (1000 + Math.max(1, nextRow - 1));
+
+    if (e && e.parameter && e.parameter.action === 'nextToken') {
+      return ContentService.createTextOutput(JSON.stringify({
+        nextToken: nextToken,
+        lastRow: lastRow
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    return ContentService.createTextOutput("Hero Fincorp Google Apps Script Webhook is Active! Next Sequential Token: " + nextToken)
+      .setMimeType(ContentService.MimeType.TEXT);
+  } catch (err) {
+    return ContentService.createTextOutput("Hero Fincorp Google Apps Script Webhook is Active! (doGet: " + err.toString() + ")")
+      .setMimeType(ContentService.MimeType.TEXT);
+  }
 }
