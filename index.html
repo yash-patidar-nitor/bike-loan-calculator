@@ -176,9 +176,8 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
-          <a href="./" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95" title="Start a fresh blank form for a new customer">
-            <span>➕ New Form</span>
-          </a>
+          <button type="button" id="newFormBtn" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95" title="Start a fresh blank form for a new customer">
+            <span>➕ New Form</span></button>
           <button type="button" id="submitToSheetBtn" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-md shadow-emerald-950 active:scale-95">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
             <span>Save to Sheet &amp; Allot Token</span>
@@ -200,82 +199,90 @@
       <!-- Application Details Form Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
         
-        <!-- LEFT: Applicant & Family Details -->
-        <div class="space-y-3.5">
+        <!-- LEFT: Applicant & Family Details (Spacious, Un-cramped Layout) -->
+        <div class="space-y-4">
           
-          <!-- 1. Customer Details -->
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-              <span>👤</span>
-              <span>1. Customer Details</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
-              <div class="space-y-1">
-                <label for="kycName" class="font-semibold text-slate-400 text-[11px]">Customer Name</label>
-                <input type="text" id="kycName" placeholder="Full Name"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-semibold text-xs focus:border-rose-500 focus:outline-none transition">
+          <!-- 1. Customer Details (Spacious 2x2 Grid) -->
+          <div class="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-3.5 shadow-sm">
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 gap-2">
+              <div class="font-bold text-white flex items-center gap-2 text-xs sm:text-sm text-rose-300">
+                <span class="text-base">👤</span>
+                <span>1. Customer Details</span>
               </div>
-              <div class="space-y-1">
+              <!-- Active Token Display & Next Token Action -->
+              <div class="flex items-center gap-1.5">
+                <span class="text-[11px] text-slate-400 font-medium">Token:</span>
+                <span id="activeTokenDisplay" class="font-mono font-black text-amber-300 bg-amber-500/20 border border-amber-500/40 px-2.5 py-1 rounded-lg text-xs sm:text-sm tracking-wider">TK-1001</span>
+                <button type="button" id="bumpNextTokenBtn" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg border border-slate-700 transition active:scale-95 flex items-center gap-1" title="Increment to next sequential token">
+                  <span>➕ Next Token</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="kycName" class="font-semibold text-slate-300 text-xs block">Customer Name</label>
+                <input type="text" id="kycName" placeholder="Full Name (e.g. Rahul Sharma)"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-semibold text-sm focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1.5">
                 <div class="flex items-center justify-between">
-                  <label for="kycCustomerDob" class="font-bold text-rose-300 text-[11px] flex items-center gap-1">
+                  <label for="kycCustomerDob" class="font-bold text-rose-300 text-xs flex items-center gap-1">
                     <span>🎂 Customer DOB</span>
                   </label>
-                  <span id="kycCustomerDobBadge" class="hidden text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
+                  <span id="kycCustomerDobBadge" class="hidden text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
                 </div>
                 <input type="date" id="kycCustomerDob" style="color-scheme: dark;"
-                  class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/70 px-3 py-2 text-white font-bold text-xs tracking-wide focus:border-rose-400 focus:outline-none transition shadow-sm shadow-rose-950">
+                  class="block w-full rounded-xl bg-slate-900 border-2 border-rose-600/80 px-3.5 py-2 text-white font-bold text-sm tracking-wide focus:border-rose-400 focus:outline-none transition shadow-sm shadow-rose-950">
               </div>
-              <div class="space-y-1">
-                <label for="kycMobile" class="font-semibold text-slate-400 text-[11px]">Mobile Number</label>
-                <input type="tel" id="kycMobile" placeholder="10-digit number" maxlength="10"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              <div class="space-y-1.5">
+                <label for="kycMobile" class="font-semibold text-slate-300 text-xs block">Mobile Number</label>
+                <input type="tel" id="kycMobile" placeholder="10-digit mobile number" maxlength="10"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-semibold text-sm tracking-wide focus:border-rose-500 focus:outline-none transition">
               </div>
-              <div class="space-y-1">
-                <label for="kycPin" class="font-semibold text-slate-400 text-[11px]">Pin Code</label>
+              <div class="space-y-1.5">
+                <label for="kycPin" class="font-semibold text-slate-300 text-xs block">Area Pin Code</label>
                 <input type="text" id="kycPin" placeholder="e.g. 452001" maxlength="6"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-semibold text-sm tracking-wide focus:border-rose-500 focus:outline-none transition">
               </div>
             </div>
           </div>
 
-          <!-- 2. Mother Details (Mother Name Only) -->
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-              <span>👩</span>
-              <span>2. Mother Details</span>
+          <!-- 2. Family & Nominee Details (Spacious Grid) -->
+          <div class="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-3.5 shadow-sm">
+            <div class="font-bold text-white flex items-center gap-2 text-xs sm:text-sm text-rose-300 pb-2.5 border-b border-slate-800">
+              <span class="text-base">👨‍👩‍👧</span>
+              <span>2. Family &amp; Nominee Details</span>
             </div>
-            <div class="space-y-1">
-              <label for="kycMotherName" class="font-semibold text-slate-400 text-[11px]">Mother Name</label>
-              <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
-                class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-            </div>
-          </div>
-
-          <!-- 3. Nominee & Reference Details (With Nominee DOB) -->
-          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-            <div class="font-bold text-white flex items-center gap-1.5 text-xs text-rose-300">
-              <span>🛡️</span>
-              <span>3. Nominee &amp; Reference</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="space-y-1">
-                <label for="kycNomineeName" class="font-semibold text-slate-400 text-[11px]">Nominee Name</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="kycMotherName" class="font-semibold text-slate-300 text-xs block">Mother Name</label>
+                <input type="text" id="kycMotherName" placeholder="Mother's Full Name"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-medium text-sm focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1.5">
+                <label for="kycHomeMobile" class="font-semibold text-slate-300 text-xs block">Home / Alternate Mobile</label>
+                <input type="tel" id="kycHomeMobile" placeholder="Landline / Alternate Contact" maxlength="10"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-medium text-sm tracking-wide focus:border-rose-500 focus:outline-none transition">
+              </div>
+              <div class="space-y-1.5">
+                <label for="kycNomineeName" class="font-semibold text-slate-300 text-xs block">Nominee Name</label>
                 <input type="text" id="kycNomineeName" placeholder="Nominee Full Name"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-medium text-sm focus:border-rose-500 focus:outline-none transition">
               </div>
-              <div class="space-y-1">
+              <div class="space-y-1.5">
                 <div class="flex items-center justify-between">
-                  <label for="kycNomineeDob" class="font-bold text-rose-300 text-[11px] flex items-center gap-1">
+                  <label for="kycNomineeDob" class="font-bold text-rose-300 text-xs flex items-center gap-1">
                     <span>🎂 Nominee DOB</span>
                   </label>
-                  <span id="kycNomineeDobBadge" class="hidden text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
+                  <span id="kycNomineeDobBadge" class="hidden text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
                 </div>
                 <input type="date" id="kycNomineeDob" style="color-scheme: dark;"
-                  class="block w-full rounded-lg bg-slate-900 border-2 border-rose-600/70 px-3 py-2 text-white font-bold text-xs tracking-wide focus:border-rose-400 focus:outline-none transition">
+                  class="block w-full rounded-xl bg-slate-900 border-2 border-rose-600/80 px-3.5 py-2 text-white font-bold text-sm tracking-wide focus:border-rose-400 focus:outline-none transition">
               </div>
-              <div class="space-y-1">
-                <label for="kycNomineeRel" class="font-semibold text-slate-400 text-[11px]">Nominee Relation</label>
-                <select id="kycNomineeRel" class="block w-full rounded-lg bg-slate-900 border border-slate-700 py-2 px-2.5 text-white font-medium text-xs focus:border-rose-500 focus:outline-none">
+              <div class="space-y-1.5 sm:col-span-2">
+                <label for="kycNomineeRel" class="font-semibold text-slate-300 text-xs block">Nominee Relation</label>
+                <select id="kycNomineeRel" class="block w-full rounded-xl bg-slate-900 border border-slate-700 py-2.5 px-3.5 text-white font-medium text-sm focus:border-rose-500 focus:outline-none cursor-pointer">
                   <option value="Wife" selected>Wife</option>
                   <option value="Son">Son</option>
                   <option value="Mother">Mother</option>
@@ -284,20 +291,25 @@
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div class="space-y-1">
-                <label for="kycHomeMobile" class="font-semibold text-slate-400 text-[11px]">Home Mobile</label>
-                <input type="tel" id="kycHomeMobile" placeholder="Residence Contact" maxlength="10"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+            </div>
+          </div>
+
+          <!-- 3. Reference Details -->
+          <div class="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-3.5 shadow-sm">
+            <div class="font-bold text-white flex items-center gap-2 text-xs sm:text-sm text-rose-300 pb-2.5 border-b border-slate-800">
+              <span class="text-base">🤝</span>
+              <span>3. Reference Details</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="kycRefName" class="font-semibold text-slate-300 text-xs block">Reference Name</label>
+                <input type="text" id="kycRefName" placeholder="Reference Person Full Name"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-medium text-sm focus:border-rose-500 focus:outline-none transition">
               </div>
-              <div class="space-y-1">
-                <label for="kycRefName" class="font-semibold text-slate-400 text-[11px]">Reference Name</label>
-                <input type="text" id="kycRefName" placeholder="Reference Person"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
-              </div>
-              <div class="space-y-1">
-                <label for="kycRefMobile" class="font-semibold text-slate-400 text-[11px]">Reference Mobile</label>
-                <input type="tel" id="kycRefMobile" placeholder="Ref Contact" maxlength="10"
-                  class="block w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-white font-medium text-xs focus:border-rose-500 focus:outline-none transition">
+              <div class="space-y-1.5">
+                <label for="kycRefMobile" class="font-semibold text-slate-300 text-xs block">Reference Mobile</label>
+                <input type="tel" id="kycRefMobile" placeholder="10-digit mobile number" maxlength="10"
+                  class="block w-full rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5 text-white font-medium text-sm tracking-wide focus:border-rose-500 focus:outline-none transition">
               </div>
             </div>
           </div>
@@ -1016,7 +1028,11 @@
       state.roi = roi;
       state.tenureMonths = tenure;
 
-      // Update Header & Banner Token Badges
+      // Update Active Token Display & Badges
+      const elActiveTokenDisplay = document.getElementById('activeTokenDisplay');
+      if (elActiveTokenDisplay) {
+        elActiveTokenDisplay.textContent = state.tokenNumber || 'TK-1001';
+      }
       if (state.tokenNumber) {
         if (headerTokenBadge) {
           headerTokenBadge.textContent = state.tokenNumber;
@@ -1470,10 +1486,13 @@
       const params = new URLSearchParams(window.location.search);
       const hasAnyParams = window.location.search.length > 1;
 
-      // Token Number
-      if (params.has('token')) {
-        state.tokenNumber = params.get('token');
-        trackTokenSequence(state.tokenNumber);
+      // Token Number (Simple Incremental Counter)
+      if (params.has('token') && params.get('token').trim()) {
+        state.tokenNumber = params.get('token').trim();
+        syncTokenCounter(state.tokenNumber);
+      } else {
+        // Fresh case: immediately allot the next incremental token!
+        state.tokenNumber = allotNextToken();
       }
 
       // Customer Name
@@ -1541,7 +1560,7 @@
 
       // If opened completely fresh without any params in URL (New Form link)
       if (!hasAnyParams) {
-        state.tokenNumber = '';
+        if (!state.tokenNumber) state.tokenNumber = allotNextToken();
         state.customerName = '';
         state.customerDob = '';
         state.mobile = '';
@@ -1631,7 +1650,7 @@
 
     // Reset Defaults Button
     document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
-      state.tokenNumber = '';
+      state.tokenNumber = allotNextToken();
       state.customerName = '';
       state.customerDob = '';
       state.mobile = '';
@@ -1731,7 +1750,7 @@
     }
 
     var nextRow = sheet.getLastRow() + 1;
-    var tokenNo = data.token || ("TK-" + (1000 + nextRow - 1));
+    var tokenNo = (data && data.token) ? data.token : ("TK-" + (1000 + nextRow - 1));
     var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss");
     var status = data.status || "New Case";
     var assignedTo = data.assignedTo || "Unassigned";
@@ -1770,26 +1789,46 @@ function doGet(e) {
     // Dedicated Google Sheets Webhook URL (Hardcoded backend endpoint)
     const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyqm-M6_Gr6COtcXe6nzAT5CENQUEnDUFo3x3IdJccGl9yG0USFmGEUWwgXbxbKMrCPzA/exec";
 
-    // Keep local sequential token counter in sync with highest token seen
-    function trackTokenSequence(tokenStr) {
+    // ==========================================
+    // SIMPLE INCREMENTAL TOKEN COUNTER
+    // ==========================================
+    const TOKEN_STORAGE_KEY = 'dealership_token_counter';
+
+    function getStoredTokenCounter() {
+      const stored = localStorage.getItem(TOKEN_STORAGE_KEY);
+      let num = parseInt(stored, 10);
+      if (isNaN(num) || num < 1000) {
+        const legacy = parseInt(localStorage.getItem('dealership_case_seq'), 10);
+        num = (!isNaN(legacy) && legacy >= 1000) ? legacy : 1000;
+        localStorage.setItem(TOKEN_STORAGE_KEY, num.toString());
+      }
+      return num;
+    }
+
+    // Allot next incremental sequential token number (TK-1001, TK-1002, ...)
+    function allotNextToken() {
+      let counter = getStoredTokenCounter() + 1;
+      localStorage.setItem(TOKEN_STORAGE_KEY, counter.toString());
+      localStorage.setItem('dealership_case_seq', counter.toString());
+      return `TK-${counter}`;
+    }
+
+    // Sync counter with loaded token so it never goes backwards
+    function syncTokenCounter(tokenStr) {
       if (!tokenStr) return;
-      const num = parseInt(tokenStr.replace(/\D/g, ''), 10);
-      if (!isNaN(num) && num >= 1000) {
-        let cur = parseInt(localStorage.getItem('dealership_case_seq') || '1000', 10);
-        if (isNaN(cur) || num > cur) {
+      const match = tokenStr.match(/\d+/);
+      if (match) {
+        const num = parseInt(match[0], 10);
+        const cur = getStoredTokenCounter();
+        if (num > cur) {
+          localStorage.setItem(TOKEN_STORAGE_KEY, num.toString());
           localStorage.setItem('dealership_case_seq', num.toString());
         }
       }
     }
 
-    // Allot strictly sequential token number (e.g. TK-1001, TK-1002, ...)
-    function getNextTokenNumber() {
-      let cur = parseInt(localStorage.getItem('dealership_case_seq') || '1000', 10);
-      if (isNaN(cur) || cur < 1000) cur = 1000;
-      cur += 1;
-      localStorage.setItem('dealership_case_seq', cur.toString());
-      return `TK-${cur}`;
-    }
+    const trackTokenSequence = syncTokenCounter;
+    const getNextTokenNumber = allotNextToken;
 
     // Save to Google Sheet & Allot Token
     async function submitCaseToGoogleSheet() {
@@ -1903,6 +1942,62 @@ function doGet(e) {
     // Google Sheets & Token Allotment Event Listeners
     if (submitToSheetBtn) {
       submitToSheetBtn.addEventListener('click', submitCaseToGoogleSheet);
+    }
+
+    // Quick Increment to Next Token button
+    const bumpNextTokenBtn = document.getElementById('bumpNextTokenBtn');
+    if (bumpNextTokenBtn) {
+      bumpNextTokenBtn.addEventListener('click', () => {
+        state.tokenNumber = allotNextToken();
+        updateCalculator();
+        showToast(`Switched to Token #${state.tokenNumber}`);
+      });
+    }
+
+    // New Form button (starts fresh customer with next sequential token)
+    const newFormBtn = document.getElementById('newFormBtn');
+    if (newFormBtn) {
+      newFormBtn.addEventListener('click', () => {
+        state.tokenNumber = allotNextToken();
+        state.customerName = '';
+        state.customerDob = '';
+        state.mobile = '';
+        state.pincode = '';
+        state.motherName = '';
+        state.nomineeName = '';
+        state.nomineeDob = '';
+        state.nomineeRel = 'Wife';
+        state.homeMobile = '';
+        state.refName = '';
+        state.refMobile = '';
+
+        if (elKycName) elKycName.value = '';
+        if (elKycCustomerDob) elKycCustomerDob.value = '';
+        if (elKycMobile) elKycMobile.value = '';
+        if (elKycPin) elKycPin.value = '';
+        if (elKycMotherName) elKycMotherName.value = '';
+        if (elKycNomineeName) elKycNomineeName.value = '';
+        if (elKycNomineeDob) elKycNomineeDob.value = '';
+        if (elKycNomineeRel) elKycNomineeRel.value = 'Wife';
+        if (elKycHomeMobile) elKycHomeMobile.value = '';
+        if (elKycRefName) elKycRefName.value = '';
+        if (elKycRefMobile) elKycRefMobile.value = '';
+
+        if (elKycModelSelect) elKycModelSelect.value = 'Splendor Self';
+        if (elKycCustomModelRow) elKycCustomModelRow.classList.add('hidden');
+        if (elKycCustomModelInput) elKycCustomModelInput.value = '';
+        if (elKycExShowroom) elKycExShowroom.value = MODEL_PRESETS['Splendor Self'].exShowroom;
+        if (elKycInsurance) elKycInsurance.value = MODEL_PRESETS['Splendor Self'].insurance;
+        recalcVehiclePricing(true, true);
+        if (elDownPayment) elDownPayment.value = 20000;
+        if (elFileCharge) elFileCharge.value = 8000;
+        if (elInsuranceCheck) elInsuranceCheck.checked = true;
+        setTenure(24);
+        setRoi(11.99);
+
+        updateCalculator();
+        showToast(`Fresh Form Ready! Allotted Token #${state.tokenNumber}`);
+      });
     }
 
     // Populate 1-Page Monochrome Print Slip
